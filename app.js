@@ -9,9 +9,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
-//this is to test github
-
-const app = express();
+const app =express();
 
 // view engine setup
 app.set('view engine', 'pug');
@@ -55,5 +53,5 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+//this is a test case
 module.exports = app;
