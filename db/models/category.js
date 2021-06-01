@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER
   }, {});
   Category.associate = function(models) {
-    // associations can be defined here
+    Category.belongsTo(models.User, { foreignKey: "userId" });
+    Category.hasMany(models.Task, { foreignKey: "categoryId" });
   };
   return Category;
 };
