@@ -39,7 +39,7 @@ store.sync();
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/mytasks', tasksRouter);
+app.use('/tasks', tasksRouter);
 app.use('/categories', categoriesRouter);
 
 // catch 404 and forward to error handler
@@ -57,5 +57,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 //this is a test case
 module.exports = app;

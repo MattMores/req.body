@@ -4,5 +4,20 @@ html
       block head
         title="Express Starter App"
         link(rel='stylesheet' href='/stylesheets/reset.css')
+        link(rel="stylesheet" href="/stylesheets/index.css")
   body
+    header.header
+      h2.name REQ<b>.</b>BODY
+      .tabs
+        h6 Home
+        h6 My Tasks
+        h6 Login
+        h6 Signup
+    .body
+      nav.side-bar
+          ul
+          each category in categories
+            li
+              a(href=`/categories/${category.id}`)
+                span #{category.title}
     block content
