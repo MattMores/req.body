@@ -44,6 +44,16 @@ const requireAuth = (req, res, next) => {
 }
 
 
+const checkPermissions = (task, currentUser) => {
+    if (task.userId !== currentUser.id) {
+        const err = new Error('Illegal operation.');
+        err.status = 403; // Forbidden
+        throw err;
+    }
+};
+
+// checkPermissions(taskToUpdate, res.locals.user);
+
 module.exports = {
     loginUser,
     restoreUser,

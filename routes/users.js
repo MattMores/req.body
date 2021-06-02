@@ -15,6 +15,10 @@ const router = express.Router();
 /* GET users listing. */
 router.get('/register', csrfProtection, (req, res,) => {
 
+  if (req.session.auth) {
+    res.redirect('/tasks')
+  }
+
   const user = db.User.build();
   res.render("testUserRegister", {
     title: 'Register',
@@ -80,6 +84,11 @@ const userValidators = [
 
 router.post('/register', csrfProtection, userValidators, asyncHandler(async (req, res, next) => {
   // console.log(req.body)
+
+  if (req.session.auth) {
+    res.redirect('/tasks')
+  }
+
   const { username, firstName, lastName, email, password } = req.body
 
   const user = db.User.build({
@@ -107,11 +116,66 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async (req
     })
   }
 
+
 }));
 
-router.post('/logout', (req, res) => {
+const loginValidators = [
+  check('email')
+    .exists({ checkFalsy: true })
+    .withMessage('Please enter email'),
+  check('password')
+    .exists({ checkFalsy: true })
+    .withMessage('Please enter password')
+];
+
+router.get('/login', csrfProtection, (req, res) => {
+
+  if (req.session.auth) {
+    res.redirect('/tasks')
+  }
+
+  res.render('testUserLogin', {
+    title: "Login",
+    csrfToken: req.csrfToken(),
+  })
+})
+
+router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, res) => {
+
+  const { email, password } = req.body
+
+  let errors = [];
+
+  const validatorErrors = validationResult(req)
+
+  if (validatorErrors.isEmpty()) {
+
+    const user = await db.User.findOne({ where: { email } })
+    if (user) {
+
+      const passwordMatch = await bcrypt.compare(password, user.hashedPassword.toString())
+      if (passwordMatch) {
+        loginUser(req, res, user)
+        return res.redirect('/tasks')
+      }
+
+    }
+    errors.push("Login failed for the provided email address and password");
+
+  } else {
+    errors = validatorErrors.array().map((error) => error.msg)
+  }
+  res.render('testUserLogin', {
+    title: 'Login',
+    email,
+    errors,
+    csrfToken: req.csrfToken()
+  })
+}))
+
+router.get('/logout', (req, res) => {
   logoutUser(req, res)
-  res.redirect('/login')
+  res.redirect('users/login')
 })
 
 

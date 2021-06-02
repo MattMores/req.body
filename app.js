@@ -26,6 +26,7 @@ const store = new SequelizeStore({ db: sequelize });
 
 app.use(
   session({
+    name: 'testing.sid',
     secret: 'superSecret',
     store,
     saveUninitialized: false,
@@ -37,6 +38,7 @@ app.use(
 store.sync();
 
 app.use(restoreUser)
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
