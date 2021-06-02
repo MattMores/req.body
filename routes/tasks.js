@@ -31,7 +31,6 @@ router.get('/:id', asyncHandler(async(req, res, next) => {
 router.post('/', asyncHandler(async(req, res) => {
     // userId from current session
     // const { userId } = req.session.auth
-    const userId = 1;
     const { title, details, categoryId, public, due  } = req.body
     const createdTask = await Task.create({ userId=userId, title, details, categoryId, completed, public, due})
     res.json({createdTask})
@@ -42,10 +41,9 @@ router.put('/:id', asyncHandler(async(req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id);
     //  const { userId } = req.session.auth
-    const userId = 1;
     const { title, details, categoryId, completed, public, due } = req.body
     if (task) {
-    const updatedTask = await task.update(userId, title, details, categoryId, completed, public, due)
+    const updatedTask = await task.update({userId, title, details, categoryId, completed, public, due})
         // Maybe change parameter req.body
         res.json({ updatedTask })
     } else {
