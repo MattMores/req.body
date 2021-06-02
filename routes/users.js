@@ -173,11 +173,36 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   })
 }))
 
-router.get('/logout', (req, res) => {
+router.get('/logout', asyncHandler(async (req, res) => {
+  // console.log(req.session.auth)
+  // if (req.session.auth.username === "DemoUser") {
+  //   logoutUser(req, res)
+  //   // const user = db.User
+  // }
   logoutUser(req, res)
   res.redirect('users/login')
-})
+}))
 
+router.get('/demo', asyncHandler(async (req, res) => {
+  if (req.session.auth) {
+    res.redirect('/tasks')
+  }
+
+  const user = db.User.build({
+    username: "DemoUser",
+    email: "demo@demoUser.com",
+    firstName: "demoFirstName",
+    lastName: "demoLastName",
+    hashedPassword: "Password123!"
+  })
+
+  if (user) {
+    await user.save();
+    loginUser(req, res, user)
+    res.redirect('/tasks')
+  }
+
+}))
 
 
 module.exports = router;
