@@ -48,5 +48,6 @@ module.exports = {
     loginUser,
     restoreUser,
     loginUser,
+    logoutUser,
     requireAuth
 }

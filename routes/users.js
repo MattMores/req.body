@@ -14,6 +14,7 @@ const router = express.Router();
 
 /* GET users listing. */
 router.get('/register', csrfProtection, (req, res,) => {
+
   const user = db.User.build();
   res.render("testUserRegister", {
     title: 'Register',
@@ -107,6 +108,11 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async (req
   }
 
 }));
+
+router.post('/logout', (req, res) => {
+  logoutUser(req, res)
+  res.redirect('/login')
+})
 
 
 
