@@ -1,9 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const router = express.Router();
-const { Task, User } = require('../db/models')
+const { Task, User, Category } = require('../db/models')
 const { asyncHandler } = require('../utils')
-const session = require('express-session');
 
 
 const taskNotFoundError = (id) => {
@@ -14,8 +13,14 @@ const taskNotFoundError = (id) => {
 }
 
 router.get('/', asyncHandler(async(req, res) => {
-    const tasks = await Task.findAll();
-    res.json({ tasks })
+    const { userId } = req.session.auth;
+    const categories = await Category.findAll({
+        where: {
+            userId: userId
+        },
+        include: Task
+    })
+    res.render( mytasks, { categories })
 }))
 
 router.get('/:id', asyncHandler(async(req, res, next) => {
@@ -32,7 +37,7 @@ router.post('/', asyncHandler(async(req, res) => {
     // userId from current session
     // const { userId } = req.session.auth
     const { title, details, categoryId, public, due  } = req.body
-    const createdTask = await Task.create({ userId=userId, title, details, categoryId, completed, public, due})
+    const createdTask = await Task.create({ userId, title, details, categoryId, completed, public, due})
     res.json({createdTask})
     // Authorization - Check if user is logged in / has a user ID
 }))
