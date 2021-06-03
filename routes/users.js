@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs')
 const db = require('../db/models')
+const { Task, User, Category } = db;
 const { check, validationResult } = require('express-validator');
 // const { csrfProtection, asyncHandler } = require('./utils')
 const { loginUser, logoutUser } = require('../auth')
@@ -174,18 +175,46 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 }))
 
 router.get('/logout', asyncHandler(async (req, res) => {
+  // console.log(req.session.auth.username)
   // console.log(req.session.auth)
-  // if (req.session.auth.username === "DemoUser") {
-  //   logoutUser(req, res)
-  //   // const user = db.User
-  // }
+  if (req.session.auth.username === "DemoUser") {
+    // logoutUser(req, res)
+    const user = await User.findByPk(req.session.auth.userId)
+    const tasks = await Task.findAll({
+      where: {
+        userId: req.session.auth.userId
+      }
+    })
+    const categories = await Category.findAll({
+      where: {
+        userId: req.session.auth.userId
+      }
+    })
+
+    await tasks.forEach(task => {
+      task.destroy()
+    })
+    // await tasks.destroy()
+    // await categories.destroy()
+    await categories.forEach(category => {
+      category.destroy()
+    })
+    await user.destroy()
+    // console.log(user)
+    // console.log(tasks)
+    // console.log(categories)
+    // const user = db.User
+  }
+
   logoutUser(req, res)
-  res.redirect('users/login')
+  // res.redirect('/login')
+  res.redirect('login')
 }))
+
 
 router.get('/demo', asyncHandler(async (req, res) => {
   if (req.session.auth) {
-    res.redirect('/tasks')
+    // res.redirect('/tasks')
   }
 
   const user = db.User.build({
@@ -203,6 +232,8 @@ router.get('/demo', asyncHandler(async (req, res) => {
   }
 
 }))
+
+
 
 
 module.exports = router;

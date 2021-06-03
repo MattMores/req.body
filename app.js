@@ -9,6 +9,8 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const { restoreUser } = require('./auth')
+const tasksRouter = require('./routes/tasks');
+const categoriesRouter = require('./routes/categories');
 
 const app = express();
 
@@ -26,7 +28,6 @@ const store = new SequelizeStore({ db: sequelize });
 
 app.use(
   session({
-    name: 'testing.sid',
     secret: 'superSecret',
     store,
     saveUninitialized: false,
@@ -41,6 +42,10 @@ app.use(restoreUser)
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/tasks', tasksRouter);
+app.use('/categories', categoriesRouter);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -57,5 +62,8 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+
 //this is a test case
 module.exports = app;
