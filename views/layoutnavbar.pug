@@ -17,14 +17,14 @@ html
         h6 Login
         h6 Signup
     .body
-    if locals.authenticated
-      nav.side-bar
-          ul
-            li
-              a(href='/add') Add a category
-              //- add a category/ regular first then ajax if possible
-            each category in categories
+      if locals.authenticated
+        nav.side-bar
+            ul
               li
-                a(href=`/categories/${category.id}`)
-                  span #{category.title}
-    block content
+                a(href='/add') Add a category
+                //- add a category/ regular first then ajax if possible
+              each category in categories
+                li
+                  a(href=`/categories/${category.id}`)
+                    span #{category.title}
+      block content
