@@ -1,10 +1,28 @@
-extends layout.pug
+extends layoutnavbar.pug
 
 append head
-
+  link(rel="stylesheet" href="/stylesheets/mytasks.css")
   script(src="/javascripts/mytasks.js" type="module" defer)
 
 block content
-    each task in tasks
-        div(class='#{task.id} tasks')
-            task.title
+  div.whitespace
+    .title
+      h1 My Tasks
+    .addTask
+      button Add Task
+    .incomplete
+      h3 Not Complete
+      each incompleteTask in incompleteTasks
+        div(class='tasks' id=incompleteTask.id)
+          p #{incompleteTask.title}
+            .buttonsIncomplete
+              button.check checkmark
+              button.delete delete
+              button.edit edit
+    .complete
+      h3 Completed
+      each completedTask in completedTasks
+        div(class='tasks' id=completedTask.id)
+            p #{completedTask.title}
+            .buttonsComplete
+              button.delete delete

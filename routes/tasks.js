@@ -20,14 +20,21 @@ router.get('/', asyncHandler(async (req, res) => {
         },
         include: Task
     })
-    const tasks = await Task.findAll({
+    const incompleteTasks = await Task.findAll({
         where: {
-            userId: userId
+            userId: userId,
+            completed: 'false'
+        }
+    })
+    const completedTasks = await Task.findAll({
+        where: {
+            userId: userId,
+            completed: 'true'
         }
     })
 
     // console.log(categories)
-    res.render("mytasks", { categories, tasks })
+    res.render("mytasks", { categories, incompleteTasks, completedTasks })
 }))
 
 router.get('/:id', asyncHandler(async (req, res, next) => {

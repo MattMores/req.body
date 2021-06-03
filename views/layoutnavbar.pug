@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+      block head
+        title="Express Starter App"
+        link(rel="stylesheet", href="/stylesheets/login.css")
+        link(rel='stylesheet' href='/stylesheets/reset.css')
+        link(rel="stylesheet" href="/stylesheets/index.css")
+  body
+    header.header
+      h2.name REQ<b>.</b>BODY
+      .tabs
+      if locals.authenticated
+        h6 Home
+        h6 My Tasks
+      else
+        h6 Login
+        h6 Signup
+    .body
+      if locals.authenticated
+        nav.side-bar
+            ul
+              li
+                a(href='/add') Add a category
+                //- add a category/ regular first then ajax if possible
+              each category in categories
+                li
+                  a(href=`/categories/${category.id}`)
+                    span #{category.title}
+      block content
