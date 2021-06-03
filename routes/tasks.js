@@ -13,16 +13,21 @@ const taskNotFoundError = (id) => {
 }
 
 router.get('/', asyncHandler(async (req, res) => {
-    const { userId } = req.session.auth;
+    const { userId } = req.session.auth
     const categories = await Category.findAll({
         where: {
             userId: userId
         },
         include: Task
     })
+    const tasks = await Task.findAll({
+        where: {
+            userId: userId
+        }
+    })
 
     // console.log(categories)
-    res.render("mytasks", { categories })
+    res.render("mytasks", { categories, tasks })
 }))
 
 router.get('/:id', asyncHandler(async (req, res, next) => {

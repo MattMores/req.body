@@ -135,7 +135,7 @@ router.get('/login', csrfProtection, (req, res) => {
     res.redirect('/tasks')
   }
 
-  res.render('testUserLogin', {
+  res.render('login', {
     title: "Login",
     csrfToken: req.csrfToken(),
   })
@@ -166,7 +166,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   } else {
     errors = validatorErrors.array().map((error) => error.msg)
   }
-  res.render('testUserLogin', {
+  res.render('login', {
     title: 'Login',
     email,
     errors,
