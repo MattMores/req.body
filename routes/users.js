@@ -21,7 +21,7 @@ router.get('/register', csrfProtection, (req, res,) => {
   }
 
   const user = db.User.build();
-  res.render("testUserRegister", {
+  res.render("superTestRegister", {
     title: 'Register',
     user,
     csrfToken: req.csrfToken()
@@ -109,7 +109,7 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async (req
     res.redirect('/tasks')
   } else {
     const errors = validatorErrors.array().map((error) => error.msg)
-    res.render('testUserRegister', {
+    res.render('superTestRegister', {
       title: "Register",
       user,
       errors,
@@ -135,7 +135,7 @@ router.get('/login', csrfProtection, (req, res) => {
     res.redirect('/tasks')
   }
 
-  res.render('login', {
+  res.render('superTestLogin', {
     title: "Login",
     csrfToken: req.csrfToken(),
   })
@@ -166,7 +166,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   } else {
     errors = validatorErrors.array().map((error) => error.msg)
   }
-  res.render('login', {
+  res.render('superTestLogin', {
     title: 'Login',
     email,
     errors,
