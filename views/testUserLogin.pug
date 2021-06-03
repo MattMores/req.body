@@ -3,16 +3,16 @@ extends testLayout.pug
 include testUtils.pug
 
 block content
-  +validationErrorSummary(errors)
-  form(action='/users/login' method='post')
-    input(type='hidden' name='_csrf' value=csrfToken)
-    +field('Email Address', 'email', email)
-    div(class='form-group')
-    label(for="password") Password
-    input(type='password' id="password" name='password' value=null class='form-control')
-    div(class='py-4')
-      button(type='submit' class='btn btn-primary') Login
-      a(href='/' class='btn btn-warning ml-2') Cancel
-  div
-    p: a(href='/users/register') Don't have an account?
+    +validationErrorSummary(errors)
+    form(action='/users/login' method='post')
+      input(type='hidden' name='_csrf' value=csrfToken)
+      +field('Email Address', 'email', email)
+        div(class='passwordDiv')
+        label(for="password") Password
+        input(type='password' id="password" name='password' value=null class='form-control')
+        div(class='inputButtonDiv')
+          button(type='submit' class='btn btn-primary') Login
+          a(href='/' class='btn btn-warning ml-2') Cancel
+    div
+      p: a(href='/users/register') Don't have an account?
 

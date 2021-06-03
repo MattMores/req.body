@@ -1,0 +1,24 @@
+.loginForm{
+    box-sizing: border-box;
+    display: flex;
+    width: 500px;
+    height: 500px;
+    background-color: lightgray;
+    margin: auto;
+    position: relative;
+    top: 100px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .formDiv {
+    height: 100px;
+    width: auto;
+} */
+
+.formDiv div{
+   display: flex;
+   justify-content: space-between;
+}
+
