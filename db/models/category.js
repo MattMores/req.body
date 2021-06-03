@@ -12,5 +12,5 @@ module.exports = (sequelize, DataTypes) => {
     Category.belongsTo(models.User, { foreignKey: "userId" });
     Category.hasMany(models.Task, { foreignKey: "categoryId" });
   };
-  return Category;
+  return Category ;
 };
