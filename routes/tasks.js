@@ -12,7 +12,7 @@ const taskNotFoundError = (id) => {
     return err;
 }
 
-router.get('/', asyncHandler(async(req, res) => {
+router.get('/', asyncHandler(async (req, res) => {
     const { userId } = req.session.auth;
     const categories = await Category.findAll({
         where: {
@@ -20,35 +20,37 @@ router.get('/', asyncHandler(async(req, res) => {
         },
         include: Task
     })
-    res.render( mytasks, { categories })
+
+    // console.log(categories)
+    res.render("mytasks", { categories })
 }))
 
-router.get('/:id', asyncHandler(async(req, res, next) => {
+router.get('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id)
     if (task) {
-        res.json({task})
+        res.json({ task })
     } else {
         next(taskNotFoundError(id))
     }
 }))
 
-router.post('/', asyncHandler(async(req, res) => {
+router.post('/', asyncHandler(async (req, res) => {
     // userId from current session
     // const { userId } = req.session.auth
-    const { title, details, categoryId, public, due  } = req.body
-    const createdTask = await Task.create({ userId, title, details, categoryId, completed, public, due})
-    res.json({createdTask})
+    const { title, details, categoryId, public, due } = req.body
+    const createdTask = await Task.create({ userId, title, details, categoryId, completed, public, due })
+    res.json({ createdTask })
     // Authorization - Check if user is logged in / has a user ID
 }))
 
-router.put('/:id', asyncHandler(async(req, res, next) => {
+router.put('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id);
     //  const { userId } = req.session.auth
     const { title, details, categoryId, completed, public, due } = req.body
     if (task) {
-    const updatedTask = await task.update({userId, title, details, categoryId, completed, public, due})
+        const updatedTask = await task.update({ userId, title, details, categoryId, completed, public, due })
         // Maybe change parameter req.body
         res.json({ updatedTask })
     } else {
@@ -56,12 +58,12 @@ router.put('/:id', asyncHandler(async(req, res, next) => {
     }
 }))
 
-router.delete('/:id', asyncHandler(async(req, res, next) => {
+router.delete('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id);
     // const { title, details, categoryId, completed, public, due  } = req.body
     if (task) {
-    const deleteTask = await task.destroy()
+        const deleteTask = await task.destroy()
         // Maybe change parameter req.body
         res.json({ deleteTask })
     } else {

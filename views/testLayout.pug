@@ -1,0 +1,29 @@
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    title req.body - #{title}
+  body
+    nav(class='navbar navbar-expand-lg navbar-dark bg-primary')
+      a(class='navbar-brand' href='/tasks') req.body
+          //- Empty menu keeps the content that follows the
+          //- unordered list correctly positioned on the
+          //- right side of the navbar.
+    if locals.authenticated
+        span(class='navbar-text px-4') Welcome #{user.firstName}!
+        form(class='form-inline pr-4' action='/users/logout' method='post')
+            button(class='btn btn-sm btn-warning' type='submit') Logout
+    else
+        span(class='navbar-text px-4')
+        a(class='btn btn-sm btn-dark mr-2' href='/users/login') Login
+        a(class='btn btn-sm btn-dark' href='/users/register') Register
+        a(class='demoLogin' href='/users/demo') Demo User
+    .container
+      h2(class='py-4') #{title}
+      block content
+
+
+//- button(class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarText' aria-controls='navbarText' aria-expanded='false' aria-label='Toggle navigation')
+//-         span(class='navbar-toggler-icon')
+//-       div(class='collapse navbar-collapse' id='navbarText')
+//-         ul(class='navbar-nav mr-auto')
