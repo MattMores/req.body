@@ -1,0 +1,47 @@
+extends layout.pug
+
+include testUtils.pug
+
+append head
+
+block content
+    <div class="container">
+    <form action='/users/login' method='post'>
+        input(type='hidden' name='_csrf' value=csrfToken)
+        <div class="row">
+            <h1 style="text-align:center">#{title}</h1>
+            +validationErrorSummary(errors)
+            <div class="col">
+                input(type='hidden' name='_csrf' value=csrfToken)
+                +field('Username', 'username', user.username)
+                +field('First Name', 'firstName', user.firstName)
+                +field('Last Name', 'lastName', user.lastName)
+                +field('Email Address', 'email', user.email)
+                label(for="password") Password
+                input(type='password' id="password" name='password' value=null class='form-control')
+                div
+                small(id='passwordHelpBlock' class="form-text text-muted") Password must contain at least 1 lowercase letter, uppercase letter, number, and special character i.e. !@#$%^&*
+                div
+                label(for="confirmPassword") Confirm Password
+                input(type='password' id="confirmPassword" name='confirmPassword' value=null class='form-control')
+            </div>
+             <div class="col">
+            <a href="#" style="color:white" class="btn" id="grabMe">Sign up</a>
+        </div>
+        <div class="col">
+            <a href="/users/demo" style="color:white" class="btn" id="grabMeToo">Demo</a>
+        </div>
+        </div>
+    </form>
+    </div>
+
+    //- <div class="bottom-container">
+    //- <div class="row">
+    //-     <div class="col">
+    //-         <a href="#" style="color:white" class="btn" id="grabMe">Sign up</a>
+    //-     </div>
+    //-     <div class="col">
+    //-         <a href="#" style="color:white" class="btn" id="grabMeToo">Demo</a>
+    //-     </div>
+    </div>
+    </div>
