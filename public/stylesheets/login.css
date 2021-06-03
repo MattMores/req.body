@@ -126,7 +126,66 @@ input[type=submit]:hover {
     font-weight: bold;
 }
 
+.errorsList li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-wrap: wrap; */
+    /* height: 60px; */
+    width: auto;
+    margin: 10px;
+    /* width: 100px; */
+    color: darkred;
+}
 
+.labels {
+    font-weight: bold;
+}
+
+.already {
+    font-weight: bold;
+    color: darkred;
+}
+
+#registerSubmit {
+    background-color: #04AA6D;
+    /* width: 227.25px; */
+    text-align: center;
+    font-weight: bold;
+}
+
+.errorsListRegister ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: darkred;
+    font-weight: bold;
+    /* flex-wrap: wrap; */
+    /* width: 100px; */
+}
+.errorsListRegister p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-wrap: wrap; */
+    /* height: 60px; */
+    width: auto;
+    margin: 10px;
+    /* width: 100px; */
+    color: darkred;
+    font-weight: bold;
+}
+.errorsListRegister li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* flex-wrap: wrap; */
+    /* height: 60px; */
+    width: auto;
+    margin: 10px;
+    /* width: 100px; */
+    color: darkred;
+}
 
 /* .bottom-container {
     text-align: center;

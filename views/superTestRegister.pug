@@ -6,42 +6,43 @@ append head
 
 block content
     <div class="container">
-    <form action='/users/login' method='post'>
+    <form action='/users/register' method='post'>
         input(type='hidden' name='_csrf' value=csrfToken)
         <div class="row">
             <h1 style="text-align:center">#{title}</h1>
-            +validationErrorSummary(errors)
+                if errors
+                    div(class='errorsListRegister' role='alert')
+                        p The following error(s) occurred:
+                            ul
+                            each error in errors
+                                li= error
             <div class="col">
-                input(type='hidden' name='_csrf' value=csrfToken)
                 +field('Username', 'username', user.username)
                 +field('First Name', 'firstName', user.firstName)
                 +field('Last Name', 'lastName', user.lastName)
                 +field('Email Address', 'email', user.email)
-                label(for="password") Password
-                input(type='password' id="password" name='password' value=null class='form-control')
+                label(for="password" class="labels") Password
+                input(type='password' id="password" name='password' value=null)
                 div
                 small(id='passwordHelpBlock' class="form-text text-muted") Password must contain at least 1 lowercase letter, uppercase letter, number, and special character i.e. !@#$%^&*
                 div
-                label(for="confirmPassword") Confirm Password
+                label(for="confirmPassword" class="labels") Confirm Password
                 input(type='password' id="confirmPassword" name='confirmPassword' value=null class='form-control')
             </div>
              <div class="col">
-            <a href="#" style="color:white" class="btn" id="grabMe">Sign up</a>
+            //-  p(class='already') Already have an account?
+            input(type="submit" style="color:black" class="btn" id="registerSubmit")
+            //- <a href="/users/login" style="color:black" class="btn" id="registerSubmit">Submit</a>
         </div>
         <div class="col">
-            <a href="/users/demo" style="color:white" class="btn" id="grabMeToo">Demo</a>
+            p(class='already') Already have an account?
+            <a href="/users/login" style="color:white" class="btn" id="grabMe">Login </a>
+            <a href="/users/demo" style="color:white" class="btn" id="grabMeToo">Demo User</a>
+                small(id='demoHelp') Reminder: As a demo user, everything is temporary. When you logout, your data will not be saved.
         </div>
         </div>
     </form>
     </div>
+    </div>
+    </div>
 
-    //- <div class="bottom-container">
-    //- <div class="row">
-    //-     <div class="col">
-    //-         <a href="#" style="color:white" class="btn" id="grabMe">Sign up</a>
-    //-     </div>
-    //-     <div class="col">
-    //-         <a href="#" style="color:white" class="btn" id="grabMeToo">Demo</a>
-    //-     </div>
-    </div>
-    </div>
