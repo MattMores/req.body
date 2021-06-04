@@ -13,6 +13,8 @@
 
 /* style inputs and link buttons */
 input,
+textarea,
+select,
 .btn {
   width: 100%;
   padding: 12px;
@@ -24,6 +26,10 @@ input,
   font-size: 17px;
   line-height: 20px;
   text-decoration: none; /* remove underline from anchors */
+}
+
+textarea{
+  resize: none;
 }
 
 input:hover,
@@ -186,6 +192,39 @@ input[type=submit]:hover {
     /* width: 100px; */
     color: darkred;
 }
+
+#addTask {
+  background-color: #04AA6D;
+  /* width: 227.25px; */
+  text-align: center;
+  font-weight: bold;
+}
+#cancelTask {
+  background-color: rgb(255, 50, 50);
+  /* width: 227.25px; */
+  text-align: center;
+  font-weight: bold;
+}
+
+#createFirstCategory{
+  font-weight: bold;
+  /* width: 100px; */
+  background-color: lightgrey;
+}
+#createAnotherCategory__submit {
+  font-weight: bold;
+  background-color:#04aa6dc5;
+}
+#createAnotherCategory__label {
+  font-weight: bold;
+  color: darkgreen;
+}
+
+#createAnotherCategory{
+  background-color: lightgrey;
+  /* margin-left: 300px; */
+}
+
 
 /* .bottom-container {
     text-align: center;

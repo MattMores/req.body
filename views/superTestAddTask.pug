@@ -1,0 +1,54 @@
+extends layoutwithoutcategories.pug
+
+include testUtils.pug
+
+append head
+
+block content
+    <div class="container">
+    <form action='/tasks/add' method='post'>
+        input(type='hidden' name='_csrf' value=csrfToken)
+        <div class="row">
+            <h1 style="text-align:center">#{title}</h1>
+            +validationErrorSummary(errors)
+            <div class="col">
+            label(for="title") Title:
+                input(type="text" name="title" placeholder="Task title")
+            if categories && categories.length > 0
+                label(for="category" id='selectCategoryLabel') Category:
+                select(name="category" id='selectCategorySelector')
+                    option No Category
+                    each category in categories
+                        option(value=category.id)= category.title
+            else
+                div(id="everything")
+                    p: em(id= "organizeYourLIfe") Add a category to further organize your tasks!
+                    button(type="submit" class='btn' id="createFirstCategory") Create Category
+            div(class='form-group' id="createAnotherCategory__div" style="display:none")
+            label(for="test" id="createAnotherCategory__label" style="display:none") Create your category!
+            input(type='text' name='test' class='form-control' id="createAnotherCategory__input" style="display:none")
+            button(type='submit' class='btn' id="createAnotherCategory__submit" style="display:none") Create
+            button(type="submit" class='btn' id="createAnotherCategory") Create another Category
+            label(for="details") Details:
+                textarea(type="text" name="details" placeholder="Add some detail!" cols="30", rows="6")
+            label(for="due") Due:
+            input(type="datetime-local" name="due")
+            label(for="public") Privacy:
+            select(name="public")
+                option(value="false") Private
+                option(value="true") Public
+            </div>
+             <div class="col">
+            input(type="submit" style="color:white" class="btn" id="addTask" value="Add Task")
+            //- <a type="submit" value="Login" style="color:white" class="btn" id="addTask">Add Task </a>
+        </div>
+        <div class="col">
+            <a href="/tasks" style="color:white" class="btn" id="cancelTask">Cancel</a>
+        </div>
+        </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    script(type='text/javascript' src='/javascripts/addTask.js')
+

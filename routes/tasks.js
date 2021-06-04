@@ -1,9 +1,9 @@
 const express = require('express');
 const session = require('express-session');
+const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const { Task, User, Category } = require('../db/models')
-const { asyncHandler } = require('../utils')
-
+const { asyncHandler, csrfProtection } = require('../utils')
 
 const taskNotFoundError = (id) => {
     const err = Error(`Task ${id} could not be found.`)
@@ -12,8 +12,94 @@ const taskNotFoundError = (id) => {
     return err;
 }
 
+router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
+    console.log('the problem is here')
+    // res.send('test')
+    const task = Task.build()
+
+    // console.log(res.locals.user)
+    const user = await User.findByPk(res.locals.user.id, {
+        include: [Category]
+    })
+
+    const categories = user.Categories
+
+    console.log(categories)
+    // res.send('here')
+    res.render("superTestAddTask", {
+        title: "Add task!",
+        task,
+        categories,
+        csrfToken: req.csrfToken()
+    })
+
+}))
+const taskValidators = [
+    check('title')
+        .exists({ checkFalsy: true })
+        .withMessage('Enter task title'),
+];
+
+
+router.post('/add', csrfProtection, taskValidators, asyncHandler(async (req, res) => {
+    console.log(res.locals)
+    console.log(req.session.auth)
+    console.log(req.body)
+    const { title, details, due, category, public } = req.body
+
+    let errors = [];
+    const validatorErrors = validationResult(req)
+
+    const task = Task.build({
+        userId: res.locals.user.id,
+        title,
+        details,
+        categoryId: category,
+        due,
+        public
+    })
+
+    const user = await User.findByPk(res.locals.user.id, {
+        include: [Category]
+    })
+
+    const categories = user.Categories
+
+    if (category === "No Category" || !category) {
+        task.categoryId = null;
+    } else {
+        task.categoryId = parseInt(category, 10)
+    }
+
+    if (!due) {
+        task.due = null;
+    }
+    if (validatorErrors.isEmpty()) {
+
+        await task.save()
+        res.redirect('/')
+
+    } else {
+        errors = validatorErrors.array().map((error) => error.msg)
+    }
+    res.render("superTestAddTask", {
+        title: "Add task!",
+        task,
+        categories,
+        errors,
+        csrfToken: req.csrfToken()
+    })
+
+}))
+
+
+
+
 router.get('/', asyncHandler(async (req, res) => {
+    // res.send('why are you here')
+    // console.log(res.locals)
     const { userId } = req.session.auth
+    console.log(userId)
     const categories = await Category.findAll({
         where: {
             userId: userId
@@ -37,6 +123,7 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render("mytasks", { categories, incompleteTasks, completedTasks })
 }))
 
+
 router.get('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id)
@@ -55,6 +142,8 @@ router.post('/', asyncHandler(async (req, res) => {
     res.json({ createdTask })
     // Authorization - Check if user is logged in / has a user ID
 }))
+
+
 
 router.put('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
@@ -85,4 +174,7 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
 
 
 
-module.exports = router;
+
+
+
+module.exports = router

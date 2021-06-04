@@ -23,8 +23,8 @@ html
               li
                 a(href='/add') Add a category
                 //- add a category/ regular first then ajax if possible
-              each category in categories
-                li
-                  a(href=`/categories/${category.id}`)
-                    span #{category.title}
+                each category in categories
+                  li
+                    a(href=`/categories/${category.id}`)
+                      span #{category.title}
       block content
