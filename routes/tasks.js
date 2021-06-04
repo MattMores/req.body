@@ -26,7 +26,7 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
 
     console.log(categories)
     // res.send('here')
-    res.render("superTestAddTask", {
+    res.render("addTask", {
         title: "Add task!",
         task,
         categories,
@@ -37,7 +37,9 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
 const taskValidators = [
     check('title')
         .exists({ checkFalsy: true })
-        .withMessage('Enter task title'),
+        .withMessage('Enter task title')
+        .isLength({ max: 50 })
+        .withMessage("Task title must be less than 50 characters! Save some for the details section!")
 ];
 
 
@@ -77,12 +79,12 @@ router.post('/add', csrfProtection, taskValidators, asyncHandler(async (req, res
     if (validatorErrors.isEmpty()) {
 
         await task.save()
-        res.redirect('/')
+        res.redirect('/tasks')
 
     } else {
         errors = validatorErrors.array().map((error) => error.msg)
     }
-    res.render("superTestAddTask", {
+    res.render("addTask", {
         title: "Add task!",
         task,
         categories,

@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { Category } = require("../db/models");
-const { asyncHandler } = require("../utils");
+const { check, validationResult } = require('express-validator');
+const { asyncHandler, csrfProtection } = require("../utils");
 const { requireAuth } = require('../auth')
 
 const catNotFoundError = (id) => {
@@ -10,6 +11,27 @@ const catNotFoundError = (id) => {
   err.status = 404;
   return err;
 };
+
+
+const categoryValidators = [
+  check('title')
+    .exists({ checkFalsy: true })
+    .withMessage('Enter category')
+    .isLength({ max: 50 })
+    .withMessage("Category title must be less than 50 characters!")
+];
+
+
+router.get('/create', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+
+  const category = Category.build()
+  res.render("addCategory", {
+    title: "Add Category:",
+    category,
+    csrfToken: req.csrfToken()
+  })
+}))
+
 
 router.get(
   "/",
@@ -33,12 +55,27 @@ router.get(
 );
 
 router.post(
-  "/",
+  "/", csrfProtection, categoryValidators,
   asyncHandler(async (req, res, next) => {
     const { userId } = req.session.auth;
     const { title } = req.body;
-    const createCategory = await Category.create({ userId, title });
-    res.json({ createCategory });
+
+    let errors = [];
+    const validatorErrors = validationResult(req)
+
+    if (validatorErrors.isEmpty()) {
+
+      await Category.create({ userId, title });
+      res.redirect('/tasks')
+    } else {
+      errors = validatorErrors.array().map((error) => error.msg)
+    }
+    res.render('addCategory.pug', {
+      title: "Add Category:",
+      errors,
+      csrfToken: req.csrfToken()
+    })
+    // res.json({ createCategory });
   })
 );
 
@@ -73,6 +110,16 @@ router.delete(
     }
   })
 );
+
+// router.get('/create', requireAuth, asyncHandler(async (req, res) => {
+
+//   const category = Category.build()
+//   res.render("testAddCategory", {
+//     title: "Add Category:",
+//     category,
+//     csrfToken: req.csrfToken()
+//   })
+// }))
 
 router.post('/api/create', requireAuth, asyncHandler(async (req, res) => {
 
