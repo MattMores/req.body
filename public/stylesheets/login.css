@@ -28,6 +28,10 @@ select,
   text-decoration: none; /* remove underline from anchors */
 }
 
+textarea{
+  resize: none;
+}
+
 input:hover,
 .btn:hover {
   opacity: 1;
@@ -202,6 +206,11 @@ input[type=submit]:hover {
   font-weight: bold;
 }
 
+#createFirstCategory{
+  font-weight: bold;
+  /* width: 100px; */
+  background-color: lightgrey;
+}
 
 /* .bottom-container {
     text-align: center;

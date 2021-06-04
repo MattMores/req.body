@@ -40,11 +40,20 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
 
 }))
 
+router.post('/add', csrfProtection, asyncHandler(async (req, res) => {
+    console.log(res.locals)
+    console.log(req.session.auth)
+    console.log(req.body)
+}))
+
 
 
 
 router.get('/', asyncHandler(async (req, res) => {
+    // res.send('why are you here')
+    // console.log(res.locals)
     const { userId } = req.session.auth
+    console.log(userId)
     const categories = await Category.findAll({
         where: {
             userId: userId
