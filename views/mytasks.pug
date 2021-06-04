@@ -2,7 +2,8 @@ extends layoutnavbar.pug
 
 append head
   link(rel="stylesheet" href="/stylesheets/mytasks.css")
-  script(src="/javascripts/mytasks.js" type="module" defer)
+  script(src="/javascripts/mytasksdelete.js" type="module" defer)
+  script(src="/javascripts/mytaskscheck.js" type="module" defer)
 
 block content
   div.whitespace
@@ -13,16 +14,17 @@ block content
     .incomplete
       h3 Not Complete
       each incompleteTask in incompleteTasks
-        div(class='tasks' id=incompleteTask.id)
+        div(class='tasks' id=`task-${incompleteTask.id}`)
           p #{incompleteTask.title}
             .buttonsIncomplete
-              button.check checkmark
-              button.delete delete
+              button.check(id=`delete-${incompleteTask.id}`) checkmark
+              button(id=`delete-${incompleteTask.id}`).delete delete
               button.edit edit
     .complete
       h3 Completed
-      each completedTask in completedTasks
-        div(class='tasks' id=completedTask.id)
-            p #{completedTask.title}
-            .buttonsComplete
-              button.delete delete
+      .completeContainer
+        each completedTask in completedTasks
+          div(class='tasks' id=completedTask.id)
+              p #{completedTask.title}
+              .buttonsComplete
+                button(id=`delete-${incompleteTask.id}`).delete delete
