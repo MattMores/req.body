@@ -13,6 +13,7 @@
 
 /* style inputs and link buttons */
 input,
+select,
 .btn {
   width: 100%;
   padding: 12px;
