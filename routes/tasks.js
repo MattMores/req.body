@@ -147,8 +147,30 @@ router.post('/', asyncHandler(async (req, res) => {
 }))
 
 
+router.get('/edit/:id', csrfProtection, asyncHandler(async (req, res, next) => {
 
-router.put('/:id', asyncHandler(async (req, res, next) => {
+    const id = req.params.id
+    const task = await Task.findByPk(id, {
+        include: Category
+    })
+    const categories = await Category.findAll({
+        where: {
+            userId: res.locals.user.id
+        }
+    })
+    if (task) {
+        res.render('testEditTask', {
+            task,
+            categories,
+            csrfToken: req.csrfToken()
+        })
+    } else {
+        next(taskNotFoundError(id))
+    }
+
+}))
+
+router.put('api/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id);
     //  const { userId } = req.session.auth

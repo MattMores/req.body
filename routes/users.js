@@ -208,9 +208,13 @@ router.get('/logout', asyncHandler(async (req, res) => {
     }
 
     logoutUser(req, res)
-    res.redirect('/users/login')
+    // res.redirect('/users/login')
+    req.session.save(() => res.redirect("/users/login"))
+
   }
-  res.redirect('/users/login')
+  // res.redirect('/users/login')
+  req.session.save(() => res.redirect("/users/login"))
+
 }))
 
 
