@@ -1,9 +1,9 @@
 const express = require('express');
 const session = require('express-session');
+const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const { Task, User, Category } = require('../db/models')
 const { asyncHandler, csrfProtection } = require('../utils')
-
 
 const taskNotFoundError = (id) => {
     const err = Error(`Task ${id} could not be found.`)
@@ -22,11 +22,6 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
         include: [Category]
     })
 
-    // const userCategories = user.Category
-
-    // console.log(userCategories)
-    // console.log(user.Categories)
-
     const categories = user.Categories
 
     console.log(categories)
@@ -39,11 +34,62 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
     })
 
 }))
+const taskValidators = [
+    check('title')
+        .exists({ checkFalsy: true })
+        .withMessage('Enter task title'),
+];
 
-router.post('/add', csrfProtection, asyncHandler(async (req, res) => {
+
+router.post('/add', csrfProtection, taskValidators, asyncHandler(async (req, res) => {
     console.log(res.locals)
     console.log(req.session.auth)
     console.log(req.body)
+    const { title, details, due, category, public } = req.body
+
+    let errors = [];
+    const validatorErrors = validationResult(req)
+
+    const task = Task.build({
+        userId: res.locals.user.id,
+        title,
+        details,
+        categoryId: category,
+        due,
+        public
+    })
+
+    const user = await User.findByPk(res.locals.user.id, {
+        include: [Category]
+    })
+
+    const categories = user.Categories
+
+    if (category === "No Category" || !category) {
+        task.categoryId = null;
+    } else {
+        task.categoryId = parseInt(category, 10)
+    }
+
+    if (!due) {
+        task.due = null;
+    }
+    if (validatorErrors.isEmpty()) {
+
+        await task.save()
+        res.redirect('/')
+
+    } else {
+        errors = validatorErrors.array().map((error) => error.msg)
+    }
+    res.render("superTestAddTask", {
+        title: "Add task!",
+        task,
+        categories,
+        errors,
+        csrfToken: req.csrfToken()
+    })
+
 }))
 
 
