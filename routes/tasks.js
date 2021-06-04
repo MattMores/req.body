@@ -105,19 +105,19 @@ router.get('/', requireAuth, asyncHandler(async (req, res, next) => {
     console.log(userId)
     const categories = await Category.findAll({
         where: {
-            userId: userId
+            userId
         },
         include: Task
     })
     const incompleteTasks = await Task.findAll({
         where: {
-            userId: userId,
+            userId,
             completed: 'false'
         }
     })
     const completedTasks = await Task.findAll({
         where: {
-            userId: userId,
+            userId,
             completed: 'true'
         }
     })
