@@ -24,10 +24,16 @@ block content
                 div(id="everything")
                     p: em(id= "organizeYourLIfe") Add a category to further organize your tasks!
                     button(type="submit" class='btn' id="createFirstCategory") Create Category
-            div(class='form-group' id="createAnotherCategory__div" style="display:none")
-            label(for="test" id="createAnotherCategory__label" style="display:none") Create your category!
-            input(type='text' name='test' class='form-control' id="createAnotherCategory__input" style="display:none")
-            button(type='submit' class='btn' id="createAnotherCategory__submit" style="display:none") Create
+            div(id="createAnotherCategory__div" style="display:none")
+                label(for="test" id="createAnotherCategory__label" style="display:none") Create your category!
+                input(type='text' id="createAnotherCategory__input" style="display:none")
+                button(type='submit' class='btn' id="createAnotherCategory__submit" style="display:none") Create
+                button(type='submit' class='btn' id="createAnotherCategory__cancel" style="display:none") Cancel
+            label(for="category" id='selectCategoryLabelHidden' style='display:none') Category:
+                select(name="category" id='selectCategorySelectorHidden' style='display:none')
+                    option No Category
+                    each category in categories
+                        option(value=category.id)= category.title
             button(type="submit" class='btn' id="createAnotherCategory") Create another Category
             label(for="details") Details:
                 textarea(type="text" name="details" placeholder="Add some detail!" cols="30", rows="6")

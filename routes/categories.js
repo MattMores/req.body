@@ -75,10 +75,13 @@ router.delete(
 );
 
 router.post('/api/create', requireAuth, asyncHandler(async (req, res) => {
+
+  console.log(req.body)
   const category = Category.build({
     title: req.body.value,
     userId: res.locals.user.id
   })
+  console.log(category)
   if (category) {
     await category.save();
     const categories = await Category.findAll({
@@ -88,6 +91,15 @@ router.post('/api/create', requireAuth, asyncHandler(async (req, res) => {
     })
     await res.json({ categories })
   }
+}))
+router.get('/api/get', requireAuth, asyncHandler(async (req, res) => {
+
+  const categories = await Category.findAll({
+    where: {
+      userId: res.locals.user.id
+    }
+  })
+  await res.json({ categories })
 }))
 
 module.exports = router;
