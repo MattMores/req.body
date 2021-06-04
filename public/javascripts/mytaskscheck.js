@@ -14,7 +14,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       });
       if (res.ok) {
         const taskContainer = document.querySelector(".completeContainer");
-        task.style.display = "none";
+        const editCheckButtons = document.querySelectorAll(`#remove-${id}`);
+        taskContainer.appendChild(task);
+
+        editCheckButtons.forEach((editCheckButton) => {
+          editCheckButton.style.display = "none";
+        });
       }
     });
   });

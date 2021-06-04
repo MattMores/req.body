@@ -16,7 +16,7 @@ html
         h6
           a(href="/tasks" style="text-decoration:none") Home
         h6
-          a(href="/mytasks" style="text-decoration:none") My Tasks
+          a(href="/tasks" style="text-decoration:none") My Tasks
         h6
           a(href="/users/logout" style="text-decoration:none") Logout
       else
@@ -31,8 +31,8 @@ html
               li
                 a(href='/add') Add a category
                 //- add a category/ regular first then ajax if possible
-              each category in categories
-                li
-                  a(href=`/categories/${category.id}`)
-                    span #{category.title}
+                each category in categories
+                  li
+                    a(href=`/categories/${category.id}`)
+                      span #{category.title}
       block content

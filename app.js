@@ -33,7 +33,7 @@ app.use(
     saveUninitialized: false,
     resave: false,
   })
-);
+)
 
 // create Session table if it doesn't already exist
 store.sync();
@@ -62,7 +62,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 
 //this is a test case

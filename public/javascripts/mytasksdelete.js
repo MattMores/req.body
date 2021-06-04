@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   const deleteButtons = document.querySelectorAll(".delete");
   deleteButtons.forEach((deleteButton) => {
     deleteButton.addEventListener("click", async (e) => {
-        const taskId = e.target.id;
-        const id = parseInt(taskId.split('-')[1], 10)
-      const task = document.querySelector(`#task-${id}`)
+      const taskId = e.target.id;
+      const id = parseInt(taskId.split("-")[1], 10);
+      const task = document.querySelector(`#task-${id}`);
       const res = await fetch(`http://localhost:8080/tasks/${id}`, {
         method: "DELETE",
         headers: {

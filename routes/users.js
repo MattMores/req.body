@@ -21,7 +21,7 @@ router.get('/register', csrfProtection, (req, res,) => {
   }
 
   const user = db.User.build();
-  res.render("superTestRegister", {
+  res.render("register", {
     title: 'Register',
     user,
     csrfToken: req.csrfToken()
@@ -109,7 +109,7 @@ router.post('/register', csrfProtection, userValidators, asyncHandler(async (req
     res.redirect('/tasks')
   } else {
     const errors = validatorErrors.array().map((error) => error.msg)
-    res.render('superTestRegister', {
+    res.render('register', {
       title: "Register",
       user,
       errors,
@@ -135,7 +135,7 @@ router.get('/login', csrfProtection, (req, res) => {
     res.redirect('/tasks')
   }
 
-  res.render('superTestLogin', {
+  res.render('login', {
     title: "Login",
     csrfToken: req.csrfToken(),
   })
@@ -166,7 +166,7 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
   } else {
     errors = validatorErrors.array().map((error) => error.msg)
   }
-  res.render('superTestLogin', {
+  res.render('login', {
     title: 'Login',
     email,
     errors,
@@ -176,39 +176,41 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 
 router.get('/logout', asyncHandler(async (req, res) => {
   // console.log(req.session.auth.username)
-  // console.log(req.session.auth)
-  if (req.session.auth.username === "DemoUser") {
-    // logoutUser(req, res)
-    const user = await User.findByPk(req.session.auth.userId)
-    const tasks = await Task.findAll({
-      where: {
-        userId: req.session.auth.userId
-      }
-    })
-    const categories = await Category.findAll({
-      where: {
-        userId: req.session.auth.userId
-      }
-    })
+  if (req.session.auth) {
 
-    await tasks.forEach(task => {
-      task.destroy()
-    })
-    // await tasks.destroy()
-    // await categories.destroy()
-    await categories.forEach(category => {
-      category.destroy()
-    })
-    await user.destroy()
-    // console.log(user)
-    // console.log(tasks)
-    // console.log(categories)
-    // const user = db.User
+    if (req.session.auth.username === "DemoUser") {
+      // logoutUser(req, res)
+      const user = await User.findByPk(req.session.auth.userId)
+      const tasks = await Task.findAll({
+        where: {
+          userId: req.session.auth.userId
+        }
+      })
+      const categories = await Category.findAll({
+        where: {
+          userId: req.session.auth.userId
+        }
+      })
+
+      await tasks.forEach(task => {
+        task.destroy()
+      })
+      // await tasks.destroy()
+      // await categories.destroy()
+      await categories.forEach(category => {
+        category.destroy()
+      })
+      await user.destroy()
+      // console.log(user)
+      // console.log(tasks)
+      // console.log(categories)
+      // const user = db.User
+    }
+
+    await logoutUser(req, res)
+    await res.redirect('/users/login')
   }
-
-  logoutUser(req, res)
-  // res.redirect('/login')
-  res.redirect('login')
+  await res.redirect('/users/login')
 }))
 
 

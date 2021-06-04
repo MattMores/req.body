@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { Category } = require("../db/models");
+const { Category, Task } = require("../db/models");
 const { asyncHandler } = require("../utils");
+const { requireAuth } = require("../auth");
 
 const catNotFoundError = (id) => {
   const err = Error(`Category ${id} not found`);
@@ -21,10 +22,39 @@ router.get(
 router.get(
   "/:id",
   asyncHandler(async (req, res, next) => {
+    const { userId } = req.session.auth;
     const id = req.params.id;
-    const findCat = await Category.findByPk(id);
-    if (findCat) {
-      res.json({ findCat });
+    const categories = await Category.findAll({
+      where: {
+        userId: userId,
+      },
+      include: Task,
+    });
+    const category = await Category.findByPk(id);
+
+    const incompleteTasks = await Task.findAll({
+      where: {
+        categoryId: id,
+        userId: userId,
+        completed: "false",
+      },
+    });
+
+    const completedTasks = await Task.findAll({
+      where: {
+        categoryId: id,
+        userId: userId,
+        completed: "true",
+      },
+    });
+
+    if (category) {
+      res.render("mytasks", {
+        categories,
+        incompleteTasks,
+        completedTasks,
+        listTitle: `${category.title}`,
+      });
     } else {
       next(catNotFoundError(id));
     }
@@ -69,6 +99,26 @@ router.delete(
       res.json({ deleteCat });
     } else {
       next(catNotFoundError(id));
+    }
+  })
+);
+
+router.post(
+  "/api/create",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const category = Category.build({
+      title: req.body.value,
+      userId: res.locals.user.id,
+    });
+    if (category) {
+      await category.save();
+      const categories = await Category.findAll({
+        where: {
+          userId: res.locals.user.id,
+        },
+      });
+      await res.json({ categories });
     }
   })
 );

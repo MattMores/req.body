@@ -8,9 +8,7 @@ html
         link(rel="stylesheet" href="/stylesheets/index.css")
   body
     header.header
-      //- h2.name REQ<b>.</b>BODY
-      h2
-        a(href="/" style="text-decoration:none" class='name') REQ<b>.</b>BODY
+      h2.name REQ<b>.</b>BODY
       .tabs
       if locals.authenticated
         h6
@@ -18,21 +16,21 @@ html
         h6
           a(href="/tasks" style="text-decoration:none") My Tasks
         h6
-          a(href="/users/logout" style="text-decoration:none") Logout
+          a(href="http://localhost:8080/users/logout" style="text-decoration:none") Logout
       else
         h6
           a(href="/users/login" style="text-decoration:none") Login
         h6
           a(href="/users/register" style="text-decoration:none") Signup
     .body
-    if locals.authenticated
-      nav.side-bar
-          ul
-            li
-              a(href='/add') Add a category
-              if categories
+      if locals.authenticated
+        nav.side-bar
+            ul
+              li
+                a(href='/add') Add a category
+                //- add a category/ regular first then ajax if possible
                 each category in categories
                   li
                     a(href=`/categories/${category.id}`)
                       span #{category.title}
-    block content
+      block content
