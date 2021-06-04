@@ -211,6 +211,20 @@ input[type=submit]:hover {
   /* width: 100px; */
   background-color: lightgrey;
 }
+#createAnotherCategory__submit {
+  font-weight: bold;
+  background-color:#04aa6dc5;
+}
+#createAnotherCategory__label {
+  font-weight: bold;
+  color: darkgreen;
+}
+
+#createAnotherCategory{
+  background-color: lightgrey;
+  /* margin-left: 300px; */
+}
+
 
 /* .bottom-container {
     text-align: center;

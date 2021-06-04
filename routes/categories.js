@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Category } = require("../db/models");
 const { asyncHandler } = require("../utils");
+const { requireAuth } = require('../auth')
 
 const catNotFoundError = (id) => {
   const err = Error(`Category ${id} not found`);
@@ -72,5 +73,21 @@ router.delete(
     }
   })
 );
+
+router.post('/api/create', requireAuth, asyncHandler(async (req, res) => {
+  const category = Category.build({
+    title: req.body.value,
+    userId: res.locals.user.id
+  })
+  if (category) {
+    await category.save();
+    const categories = await Category.findAll({
+      where: {
+        userId: res.locals.user.id
+      }
+    })
+    await res.json({ categories })
+  }
+}))
 
 module.exports = router;
