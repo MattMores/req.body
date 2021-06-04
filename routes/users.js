@@ -207,10 +207,14 @@ router.get('/logout', asyncHandler(async (req, res) => {
       // const user = db.User
     }
 
-    await logoutUser(req, res)
-    await res.redirect('/users/login')
+    logoutUser(req, res)
+    // res.redirect('/users/login')
+    req.session.save(() => res.redirect("/users/login"))
+
   }
-  await res.redirect('/users/login')
+  // res.redirect('/users/login')
+  req.session.save(() => res.redirect("/users/login"))
+
 }))
 
 

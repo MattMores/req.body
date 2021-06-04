@@ -135,7 +135,7 @@ window.addEventListener("DOMContentLoaded", e => {
             headers: { "Content-Type": "application/json" },
         })
         const json = await res.json()
-        await console.log(json)
+        // await console.log(json)
         // await console.log(json.Categorys)
         hiddenInputField.value = ''
         if (selectCategorySelector) {
