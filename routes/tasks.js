@@ -4,7 +4,7 @@ const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const { Task, User, Category } = require('../db/models')
 const { asyncHandler, csrfProtection } = require('../utils')
-
+const { requireAuth } = require('../auth')
 const taskNotFoundError = (id) => {
     const err = Error(`Task ${id} could not be found.`)
     err.title = `Task not found.`
@@ -95,9 +95,10 @@ router.post('/add', csrfProtection, taskValidators, asyncHandler(async (req, res
 
 
 
-router.get('/', asyncHandler(async (req, res) => {
+router.get('/', requireAuth, asyncHandler(async (req, res, next) => {
     // res.send('why are you here')
     // console.log(res.locals)
+
     const { userId } = req.session.auth
     console.log(userId)
     const categories = await Category.findAll({
