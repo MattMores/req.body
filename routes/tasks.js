@@ -37,7 +37,9 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
 const taskValidators = [
     check('title')
         .exists({ checkFalsy: true })
-        .withMessage('Enter task title'),
+        .withMessage('Enter task title')
+        .isLength({ max: 50 })
+        .withMessage("Task title must be less than 50 characters! Save some for the details section!")
 ];
 
 
