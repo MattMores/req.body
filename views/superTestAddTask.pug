@@ -12,18 +12,26 @@ block content
             <h1 style="text-align:center">#{title}</h1>
             //- +validationErrorSummary(errors)
             <div class="col">
-                input(type="text" name="email" placeholder="Task title" required)
-                select
+            label(for="title") Title:
+                input(type="text" name="title" placeholder="Task title")
+            label(for="title") Details:
+                textarea(type="text" name="title" placeholder="Add some detail!")
+                label(for="category") Category:
+                select(name="category")
                     each category in categories
                         option(value=category.id)= category.title
-                input(type="password" name="password" placeholder="Password" required)
-                input(type="submit" value="Login")
+                label(for="due") Due:
+                input(type="datetime-local" name="due")
+                label(for="public") Privacy:
+                select(name="public")
+                    option(value="false") Private
+                    option(value="true") Public
             </div>
              <div class="col">
-            <a href="/users/register" style="color:white" class="btn" id="grabMe">Sign up</a>
+            <a href="/tasks" style="color:white" class="btn" id="addTask">Add Task </a>
         </div>
         <div class="col">
-            <a href="/users/demo" style="color:white" class="btn" id="grabMeToo">Demo User</a>
+            <a href="/tasks" style="color:white" class="btn" id="cancelTask">Cancel</a>
         </div>
         </div>
     </form>
