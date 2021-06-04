@@ -1,4 +1,4 @@
-extends layout.pug
+extends layoutwithoutcategories.pug
 
 include testUtils.pug
 
@@ -10,9 +10,12 @@ block content
         input(type='hidden' name='_csrf' value=csrfToken)
         <div class="row">
             <h1 style="text-align:center">#{title}</h1>
-            +validationErrorSummary(errors)
+            //- +validationErrorSummary(errors)
             <div class="col">
-                input(type="text" name="email" placeholder="Email" required)
+                input(type="text" name="email" placeholder="Task title" required)
+                select
+                    each category in categories
+                        option(value=category.id)= category.title
                 input(type="password" name="password" placeholder="Password" required)
                 input(type="submit" value="Login")
             </div>
@@ -25,14 +28,5 @@ block content
         </div>
     </form>
     </div>
-
-    //- <div class="bottom-container">
-    //- <div class="row">
-    //-     <div class="col">
-    //-         <a href="#" style="color:white" class="btn" id="grabMe">Sign up</a>
-    //-     </div>
-    //-     <div class="col">
-    //-         <a href="#" style="color:white" class="btn" id="grabMeToo">Demo</a>
-    //-     </div>
     </div>
     </div>

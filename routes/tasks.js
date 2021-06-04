@@ -2,7 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const router = express.Router();
 const { Task, User, Category } = require('../db/models')
-const { asyncHandler } = require('../utils')
+const { asyncHandler, csrfProtection } = require('../utils')
 
 
 const taskNotFoundError = (id) => {
@@ -11,6 +11,37 @@ const taskNotFoundError = (id) => {
     err.status = 404;
     return err;
 }
+
+router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
+    console.log('the problem is here')
+    // res.send('test')
+    const task = Task.build()
+
+    // console.log(res.locals.user)
+    const user = await User.findByPk(res.locals.user.id, {
+        include: [Category]
+    })
+
+    // const userCategories = user.Category
+
+    // console.log(userCategories)
+    // console.log(user.Categories)
+
+    const categories = user.Categories
+
+    console.log(categories)
+    // res.send('here')
+    res.render("superTestAddTask", {
+        title: "Add task!",
+        task,
+        categories,
+        csrfToken: req.csrfToken()
+    })
+
+}))
+
+
+
 
 router.get('/', asyncHandler(async (req, res) => {
     const { userId } = req.session.auth
@@ -37,6 +68,7 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render("mytasks", { categories, incompleteTasks, completedTasks })
 }))
 
+
 router.get('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
     const task = await Task.findByPk(id)
@@ -55,6 +87,8 @@ router.post('/', asyncHandler(async (req, res) => {
     res.json({ createdTask })
     // Authorization - Check if user is logged in / has a user ID
 }))
+
+
 
 router.put('/:id', asyncHandler(async (req, res, next) => {
     const id = req.params.id
@@ -85,4 +119,7 @@ router.delete('/:id', asyncHandler(async (req, res, next) => {
 
 
 
-module.exports = router;
+
+
+
+module.exports = router
