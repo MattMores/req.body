@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Category } = require("../db/models");
-const { asyncHandler } = require("../utils");
+const { asyncHandler, csrfProtection } = require("../utils");
 const { requireAuth } = require('../auth')
 
 const catNotFoundError = (id) => {
@@ -10,6 +10,18 @@ const catNotFoundError = (id) => {
   err.status = 404;
   return err;
 };
+
+
+router.get('/create', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
+
+  const category = Category.build()
+  res.render("addCategory", {
+    title: "Add Category:",
+    category,
+    csrfToken: req.csrfToken()
+  })
+}))
+
 
 router.get(
   "/",
@@ -38,7 +50,8 @@ router.post(
     const { userId } = req.session.auth;
     const { title } = req.body;
     const createCategory = await Category.create({ userId, title });
-    res.json({ createCategory });
+    // res.json({ createCategory });
+    res.redirect('/tasks')
   })
 );
 
@@ -73,6 +86,16 @@ router.delete(
     }
   })
 );
+
+// router.get('/create', requireAuth, asyncHandler(async (req, res) => {
+
+//   const category = Category.build()
+//   res.render("testAddCategory", {
+//     title: "Add Category:",
+//     category,
+//     csrfToken: req.csrfToken()
+//   })
+// }))
 
 router.post('/api/create', requireAuth, asyncHandler(async (req, res) => {
 

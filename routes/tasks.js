@@ -26,7 +26,7 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
 
     console.log(categories)
     // res.send('here')
-    res.render("superTestAddTask", {
+    res.render("addTask", {
         title: "Add task!",
         task,
         categories,
@@ -77,12 +77,12 @@ router.post('/add', csrfProtection, taskValidators, asyncHandler(async (req, res
     if (validatorErrors.isEmpty()) {
 
         await task.save()
-        res.redirect('/')
+        res.redirect('/tasks')
 
     } else {
         errors = validatorErrors.array().map((error) => error.msg)
     }
-    res.render("superTestAddTask", {
+    res.render("addTask", {
         title: "Add task!",
         task,
         categories,
