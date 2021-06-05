@@ -6,8 +6,8 @@ append head
 
 block content
     <div class="container">
-    <form action='/tasks/add' method='post' class="taskEditForm">
-        input(type='hidden' name='_csrf' value=csrfToken)
+    <form action='/tasks/add' method='post' class= #{id} id="taskEditForm">
+        //- input(type='hidden' name='_csrf' value=csrfToken)
         <div class="row">
             <h1 style="text-align:center">#{title}</h1>
             +validationErrorSummary(errors)
@@ -57,4 +57,5 @@ block content
     </div>
     </div>
     script(type='text/javascript' src='/javascripts/editTask.js')
+    script(type='text/javascript' src='/javascripts/addTask.js')
 

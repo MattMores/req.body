@@ -40,8 +40,11 @@ window.addEventListener("DOMContentLoaded", e => {
             hiddenCancelCategoryButton.style.display = ''
             createAnotherCategoryButton.style.display = 'none';
             hiddenInputField.innerHTML = '';
-            selectCategorySelector.style.display = 'none'
-            selectCategoryLabel.style.display = 'none'
+            if (selectCategorySelector) {
+
+                selectCategorySelector.style.display = 'none'
+                selectCategoryLabel.style.display = 'none'
+            }
             selectCategoryLabelHidden.style.display = 'none'
             selectCategorySelectorHidden.style.display = 'none'
             // selectCategoryLabel.style.display = 'none'
@@ -129,11 +132,11 @@ window.addEventListener("DOMContentLoaded", e => {
 
         const value = hiddenInputField.value
 
-        const res = await fetch("http://localhost:8080/categories/api/create", {
-            method: "POST",
-            body: JSON.stringify({ value }),
-            headers: { "Content-Type": "application/json" },
-        })
+            const res = await fetch("http://localhost:8080/categories/api/create", {
+                method: "POST",
+                body: JSON.stringify({ value }),
+                headers: { "Content-Type": "application/json" },
+            })
         const json = await res.json()
         // await console.log(json)
         // await console.log(json.Categorys)

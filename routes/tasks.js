@@ -4,7 +4,8 @@ const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const { Task, User, Category } = require('../db/models')
 const { asyncHandler, csrfProtection } = require('../utils')
-const { requireAuth } = require('../auth')
+const { requireAuth } = require('../auth');
+const { json } = require('express');
 const taskNotFoundError = (id) => {
     const err = Error(`Task ${id} could not be found.`)
     err.title = `Task not found.`
@@ -34,6 +35,8 @@ router.get('/create', csrfProtection, asyncHandler(async (req, res, next) => {
     })
 
 }))
+
+
 const taskValidators = [
     check('title')
         .exists({ checkFalsy: true })
@@ -160,7 +163,9 @@ router.get('/edit/:id', csrfProtection, asyncHandler(async (req, res, next) => {
     })
     if (task) {
         res.render('testEditTask', {
+            title: "Edit Task:",
             task,
+            id,
             categories,
             csrfToken: req.csrfToken()
         })
@@ -170,15 +175,32 @@ router.get('/edit/:id', csrfProtection, asyncHandler(async (req, res, next) => {
 
 }))
 
-router.put('api/:id', asyncHandler(async (req, res, next) => {
+router.put('/api/edit/:id(\\d+)', asyncHandler(async (req, res, next) => {
     const id = req.params.id
-    const task = await Task.findByPk(id);
-    //  const { userId } = req.session.auth
-    const { title, details, categoryId, completed, public, due } = req.body
+    let task = await Task.findByPk(id);
     if (task) {
-        const updatedTask = await task.update({ userId, title, details, categoryId, completed, public, due })
-        // Maybe change parameter req.body
-        res.json({ updatedTask })
+        console.log(req.body)
+        if (req.body.due === "") {
+            req.body.due = null;
+        }
+        console.log(req.body)
+        // console.log(public)
+        if (req.body.public === "false") {
+            req.body.public = false;
+        } else if (req.body.public === "true") {
+            req.body.public = true;
+        }
+        if (req.body.categoryId === "No Category") {
+            req.body.categoryId = null;
+        }
+        await task.update({
+            title: req.body.title,
+            details: req.body.details,
+            categoryId: req.body.categoryId,
+            public: req.body.public,
+            due: req.body.due
+        })
+        res.send({ success: true })
     } else {
         next(taskNotFoundError(id))
     }
