@@ -178,7 +178,7 @@ router.get('/logout', asyncHandler(async (req, res) => {
   // console.log(req.session.auth.username)
   if (req.session.auth) {
 
-    if (req.session.auth.username === "\\^[DemoUser]") {
+    if (req.session.auth.username === /^(DemoUser)+/) {
       // logoutUser(req, res)
       const user = await User.findByPk(req.session.auth.userId)
       const tasks = await Task.findAll({

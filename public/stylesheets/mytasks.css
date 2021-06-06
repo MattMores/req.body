@@ -5,6 +5,9 @@
 
 .body {
   display: flex;
+  /* display: block;
+  position: absolute; */
+  /* display: grid; */
 }
 .whitespace {
   width: 100%;
