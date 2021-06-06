@@ -10,7 +10,68 @@ window.addEventListener("DOMContentLoaded", e => {
     const selectCategoryLabel = document.getElementById('selectCategoryLabel')
     const selectCategorySelector = document.getElementById('selectCategorySelector')
     const hiddenCancelCategoryButton = document.getElementById('createAnotherCategory__cancel')
+
+    const psuedoCancel = async () => {
+        event.preventDefault()
+        hiddenInputField.value = '';
+        console.log(hiddenInputField.value)
+
+        hiddenDiv.style.display = 'none'
+        hiddenLabel.style.display = 'none'
+        hiddenInputField.style.display = 'none'
+        hiddenAddCategoryButton.style.display = 'none'
+        createAnotherCategoryButton.style.display = 'none'
+        if (selectCategorySelector && selectCategoryLabel) {
+
+            selectCategorySelector.style.display = ''
+            selectCategoryLabel.style.display = ''
+            createAnotherCategoryButton.style.display = ''
+            // } else if (createCategoryButton) {
+            //     everythingDiv.style.display = ''
+            //     createCategoryButton.style.display = ''
+        } else {
+            const res = await fetch("http://localhost:8080/categories/api/get")
+
+            const json = await res.json()
+            if (!json.categories.length) {
+                everythingDiv.style.display = ''
+                createCategoryButton.style.display = ''
+            } else {
+                selectCategorySelectorHidden.style.display = ''
+                selectCategoryLabelHidden.style.display = ''
+                createAnotherCategoryButton.style.display = ''
+
+                const selectList = json.categories.map(obj => {
+                    return `<option value=${obj.id}>${obj.title}</option>`
+                })
+
+                selectCategorySelectorHidden.innerHTML = `<option>No Category</option>` + selectList.join('')
+                // selectCategorySelectorHidden.style.color = "darkgreen"
+                // selectCategoryLabelHidden.style.color = 'darkgreen'
+                // selectCategoryLabelHidden.style.fontWeight = 'bold'
+            }
+        }
+
+
+        // hiddenInputField.value = '';
+        // console.log(hiddenInputField.value)
+
+        // hiddenDiv.style.display = 'none'
+        // hiddenLabel.style.display = 'none'
+        // hiddenInputField.style.display = 'none'
+        // hiddenAddCategoryButton.style.display = 'none'
+        // createAnotherCategoryButton.style.display = 'none'
+        // if (selectCategorySelector && selectCategoryLabel) {
+
+        //     selectCategorySelector.style.display = ''
+        //     selectCategoryLabel.style.display = ''
+        //     createAnotherCategoryButton.style.display = ''
+
+        // }
+    }
+
     if (createCategoryButton) {
+
         createAnotherCategoryButton.style.display = 'none'
 
         createCategoryButton.addEventListener('click', async event => {
@@ -22,7 +83,16 @@ window.addEventListener("DOMContentLoaded", e => {
             hiddenLabel.style.display = ''
             hiddenInputField.style.display = ''
             hiddenInputField.innerHTML = '';
-            hiddenAddCategoryButton.style.display = ''
+            // add event listener goes here
+            // hiddenInputField
+            hiddenInputField.addEventListener('input', e => {
+                // || hiddenInputField.value !== emptyString.tri
+                let emptyString = ''
+                if (!hiddenInputField.value || hiddenInputField.value !== emptyString || hiddenInputField.value !== emptyString.tri) {
+
+                    hiddenAddCategoryButton.style.display = ''
+                }
+            })
             hiddenCancelCategoryButton.style.display = ''
             createCategoryButton.style.display = 'none';
 
@@ -30,13 +100,23 @@ window.addEventListener("DOMContentLoaded", e => {
     }
 
     if (createAnotherCategoryButton) {
+        hiddenInputField.innerHTML = '';
         createAnotherCategoryButton.addEventListener('click', async event => {
             event.preventDefault()
 
             hiddenDiv.style.display = ''
             hiddenLabel.style.display = ''
             hiddenInputField.style.display = ''
-            hiddenAddCategoryButton.style.display = ''
+            hiddenInputField.innerHTML = '';
+            hiddenInputField.addEventListener('input', e => {
+                // || hiddenInputField.value !== emptyString.tri
+                let emptyString = ''
+                if (!hiddenInputField.value || hiddenInputField.value !== emptyString || hiddenInputField.value.trim !== emptyString) {
+
+                    hiddenAddCategoryButton.style.display = ''
+                }
+            })
+
             hiddenCancelCategoryButton.style.display = ''
             createAnotherCategoryButton.style.display = 'none';
             hiddenInputField.innerHTML = '';
@@ -52,9 +132,13 @@ window.addEventListener("DOMContentLoaded", e => {
         })
     }
 
+
+
     if (hiddenCancelCategoryButton) {
         hiddenCancelCategoryButton.addEventListener('click', async event => {
             event.preventDefault()
+            hiddenInputField.value = '';
+            console.log(hiddenInputField.value)
 
             hiddenDiv.style.display = 'none'
             hiddenLabel.style.display = 'none'
@@ -107,6 +191,7 @@ window.addEventListener("DOMContentLoaded", e => {
         // console.log(hiddenInputField.value)
         hiddenDiv.style.display = 'none'
         hiddenLabel.style.display = 'none'
+        hiddenInputField.innerHTML = '';
         hiddenInputField.style.display = 'none'
         hiddenAddCategoryButton.style.display = 'none'
         createAnotherCategoryButton.style.display = 'none'
@@ -129,39 +214,50 @@ window.addEventListener("DOMContentLoaded", e => {
             selectCategorySelectorHidden.style.color = "darkgreen"
         }
 
+        let empty = '   '
+        // const value = hiddenInputField.value
+        // let idk = hiddenInputField.value
 
-        const value = hiddenInputField.value
+        // console.log('youre here', hiddenInputField.value, idk, idk.trim(), hiddenInputField.value.trim() === empty.trim())
+        if (hiddenInputField.value.trim() === empty.trim()) {
+            hiddenInputField.value = ''
+            psuedoCancel()
+        } else {
 
+
+            const value = hiddenInputField.value
+
+            console.log('um')
             const res = await fetch("http://localhost:8080/categories/api/create", {
                 method: "POST",
                 body: JSON.stringify({ value }),
                 headers: { "Content-Type": "application/json" },
             })
-        const json = await res.json()
-        // await console.log(json)
-        // await console.log(json.Categorys)
-        hiddenInputField.value = ''
-        if (selectCategorySelector) {
+            const json = await res.json()
+            // await console.log(json)
+            // await console.log(json.Categorys)
+            hiddenInputField.value = ''
+            if (selectCategorySelector) {
 
-            const selectList = json.categories.map(obj => {
-                return `<option value=${obj.id}>${obj.title}</option>`
-            })
+                const selectList = json.categories.map(obj => {
+                    return `<option value=${obj.id}>${obj.title}</option>`
+                })
 
-            selectCategorySelector.innerHTML = `<option>No Category</option>` + selectList.join('')
-        } else {
-            selectCategoryLabelHidden.style.display = ''
-            selectCategorySelectorHidden.style.display = ''
-            const selectList = json.categories.map(obj => {
-                return `<option value=${obj.id}>${obj.title}</option>`
-            })
+                selectCategorySelector.innerHTML = `<option>No Category</option>` + selectList.join('')
+            } else {
+                selectCategoryLabelHidden.style.display = ''
+                selectCategorySelectorHidden.style.display = ''
+                const selectList = json.categories.map(obj => {
+                    return `<option value=${obj.id}>${obj.title}</option>`
+                })
 
-            selectCategorySelectorHidden.innerHTML = `<option>No Category</option>` + selectList.join('')
-            selectCategorySelectorHidden.style.color = "darkgreen"
-            selectCategoryLabelHidden.style.color = 'darkgreen'
-            selectCategoryLabelHidden.style.fontWeight = 'bold'
-            // selectCategoryLabelHidden.innerText = '*Category:'
+                selectCategorySelectorHidden.innerHTML = `<option>No Category</option>` + selectList.join('')
+                selectCategorySelectorHidden.style.color = "darkgreen"
+                selectCategoryLabelHidden.style.color = 'darkgreen'
+                selectCategoryLabelHidden.style.fontWeight = 'bold'
+                // selectCategoryLabelHidden.innerText = '*Category:'
+            }
         }
-
 
     })
 

@@ -193,6 +193,8 @@ router.put('/api/edit/:id(\\d+)', asyncHandler(async (req, res, next) => {
         if (req.body.categoryId === "No Category") {
             req.body.categoryId = null;
         }
+
+        console.log(task)
         await task.update({
             title: req.body.title,
             details: req.body.details,
