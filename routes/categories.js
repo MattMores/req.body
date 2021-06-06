@@ -16,9 +16,16 @@ const catNotFoundError = (id) => {
 const categoryValidators = [
   check('title')
     .exists({ checkFalsy: true })
-    .withMessage('Enter category')
+    .withMessage('Enter a category')
     .isLength({ max: 50 })
     .withMessage("Category title must be less than 50 characters!")
+    .custom((value) => {
+      let emptyString = '  '
+      if (value.trim() === emptyString.trim()) {
+        throw new Error("Category cannot be empty space");
+      }
+      return true;
+    }),
 ];
 
 
@@ -62,6 +69,11 @@ router.post(
 
     let errors = [];
     const validatorErrors = validationResult(req)
+    // let emptyString = '    '
+    // if (title.trim() === emptyString.trim()) {
+
+    //   const emptyStringError = new Error('Cannot add an empty category')
+    // }
 
     if (validatorErrors.isEmpty()) {
 

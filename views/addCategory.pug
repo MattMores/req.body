@@ -10,12 +10,18 @@ block content
         input(type='hidden' name='_csrf' value=csrfToken)
         <div class="row">
             <h1 style="text-align:center">#{title}</h1>
-            +validationErrorSummary(errors)
+            //- +validationErrorSummary(errors)
+            if errors
+                div(class='errorsList' role='alert')
+                    p The following error(s) occurred:
+                        ul
+                        each error in errors
+                            li= error
             <div class="col">
             label(for="title") Category title:
                 input(type="text" name="title" placeholder="Name your category!")
             <div class="col">
-            input(type="submit" style="color:white" class="btn" id="addTask" value="Add Task")
+            input(type="submit" style="color:white" class="btn" id="addTask" value="Add Category")
             //- <a type="submit" value="Login" style="color:white" class="btn" id="addTask">Add Task </a>
         </div>
         <div class="col">

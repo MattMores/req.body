@@ -18,7 +18,12 @@ taskEditForm.addEventListener('submit', async event => {
     const due = formData.get("due")
     const public = formData.get("public")
 
+
+
     const body = { title, categoryId, details, due, public }
+
+
+
     console.log(body)
     const res = await fetch(`http://localhost:8080/tasks/api/edit/${number}`, {
         method: "PUT",
@@ -31,7 +36,7 @@ taskEditForm.addEventListener('submit', async event => {
     const json = await res.json()
     console.log(json)
 
-    window.location.href = "/tasks";
+    // window.location.href = "/tasks";
 })
 
 
