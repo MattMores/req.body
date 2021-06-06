@@ -12,7 +12,6 @@ window.addEventListener("DOMContentLoaded", e => {
     const hiddenCancelCategoryButton = document.getElementById('createAnotherCategory__cancel')
 
     const psuedoCancel = async () => {
-        event.preventDefault()
         hiddenInputField.value = '';
         console.log(hiddenInputField.value)
 
@@ -42,15 +41,18 @@ window.addEventListener("DOMContentLoaded", e => {
             selectCategorySelectorHidden.style.color = "black"
             selectCategoryLabelHidden.style.color = 'black'
             selectCategoryLabelHidden.style.fontWeight = 'unset'
-            selectCategorySelector.style.color = "black"
-            selectCategoryLabel.style.color = 'black'
-            selectCategoryLabel.style.fontWeight = 'unset'
+            // selectCategorySelector.style.color = "black"
+            // selectCategoryLabel.style.color = 'black'
+            // selectCategoryLabel.style.fontWeight = 'unset'
             const res = await fetch("http://localhost:8080/categories/api/get")
 
             const json = await res.json()
+            console.log(json.categories)
             if (!json.categories.length) {
                 everythingDiv.style.display = ''
                 createCategoryButton.style.display = ''
+                selectCategorySelectorHidden.style.display = 'none'
+                selectCategoryLabelHidden.style.display = 'none'
             } else {
                 selectCategorySelectorHidden.style.display = ''
                 selectCategoryLabelHidden.style.display = ''
