@@ -21,15 +21,30 @@ window.addEventListener("DOMContentLoaded", e => {
         hiddenInputField.style.display = 'none'
         hiddenAddCategoryButton.style.display = 'none'
         createAnotherCategoryButton.style.display = 'none'
+        selectCategorySelectorHidden.style.color = "black"
+        selectCategoryLabelHidden.style.color = 'black'
+        selectCategoryLabelHidden.style.fontWeight = 'unset'
         if (selectCategorySelector && selectCategoryLabel) {
 
             selectCategorySelector.style.display = ''
             selectCategoryLabel.style.display = ''
             createAnotherCategoryButton.style.display = ''
+            selectCategorySelectorHidden.style.color = "black"
+            selectCategoryLabelHidden.style.color = 'black'
+            selectCategoryLabelHidden.style.fontWeight = 'unset'
+            selectCategorySelector.style.color = "black"
+            selectCategoryLabel.style.color = 'black'
+            selectCategoryLabel.style.fontWeight = 'unset'
             // } else if (createCategoryButton) {
             //     everythingDiv.style.display = ''
             //     createCategoryButton.style.display = ''
         } else {
+            selectCategorySelectorHidden.style.color = "black"
+            selectCategoryLabelHidden.style.color = 'black'
+            selectCategoryLabelHidden.style.fontWeight = 'unset'
+            selectCategorySelector.style.color = "black"
+            selectCategoryLabel.style.color = 'black'
+            selectCategoryLabel.style.fontWeight = 'unset'
             const res = await fetch("http://localhost:8080/categories/api/get")
 
             const json = await res.json()
@@ -88,7 +103,7 @@ window.addEventListener("DOMContentLoaded", e => {
             hiddenInputField.addEventListener('input', e => {
                 // || hiddenInputField.value !== emptyString.tri
                 let emptyString = ''
-                if (!hiddenInputField.value || hiddenInputField.value !== emptyString || hiddenInputField.value !== emptyString.tri) {
+                if (!hiddenInputField.value || hiddenInputField.value !== emptyString || hiddenInputField.value !== emptyString.trim) {
 
                     hiddenAddCategoryButton.style.display = ''
                 }
