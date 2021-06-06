@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const session = require("express-session");
-const { check, validationResult } = require("express-validator");
 const { Task, User, Category } = require("../db/models");
+const { check, validationResult } = require("express-validator");
 const { asyncHandler, csrfProtection } = require("../utils");
-
+const { requireAuth } = require("../auth");
+const { json } = require("express");
 const taskNotFoundError = (id) => {
   const err = Error(`Task ${id} could not be found.`);
   err.title = `Task not found.`;
@@ -29,7 +29,7 @@ router.get(
 
     console.log(categories);
     // res.send('here')
-    res.render("superTestAddTask", {
+    res.render("addTask", {
       title: "Add task!",
       task,
       categories,
@@ -37,8 +37,15 @@ router.get(
     });
   })
 );
+
 const taskValidators = [
-  check("title").exists({ checkFalsy: true }).withMessage("Enter task title"),
+  check("title")
+    .exists({ checkFalsy: true })
+    .withMessage("Enter task title")
+    .isLength({ max: 50 })
+    .withMessage(
+      "Task title must be less than 50 characters! Save some for the details section!"
+    ),
 ];
 
 router.post(
@@ -80,11 +87,11 @@ router.post(
     }
     if (validatorErrors.isEmpty()) {
       await task.save();
-      res.redirect("/");
+      res.redirect("/tasks");
     } else {
       errors = validatorErrors.array().map((error) => error.msg);
     }
-    res.render("superTestAddTask", {
+    res.render("addTask", {
       title: "Add task!",
       task,
       categories,
@@ -96,31 +103,35 @@ router.post(
 
 router.get(
   "/",
-  asyncHandler(async (req, res) => {
+  requireAuth,
+  asyncHandler(async (req, res, next) => {
     // res.send('why are you here')
     // console.log(res.locals)
+
     const { userId } = req.session.auth;
     console.log(userId);
     const categories = await Category.findAll({
       where: {
-        userId: userId,
+        userId,
       },
       include: Task,
     });
     const incompleteTasks = await Task.findAll({
       where: {
-        userId: userId,
+        categoryId: null,
+        userId,
         completed: "false",
       },
     });
     const completedTasks = await Task.findAll({
       where: {
-        userId: userId,
+        categoryId: null,
+        userId,
         completed: "true",
       },
     });
 
-    console.log(completedTasks)
+    // console.log(categories)
     res.render("mytasks", { categories, incompleteTasks, completedTasks, listTitle: 'My Tasks' });
   })
 );
@@ -158,25 +169,27 @@ router.post(
   })
 );
 
-router.put(
-  "/:id",
+router.get(
+  "/edit/:id",
+  csrfProtection,
   asyncHandler(async (req, res, next) => {
     const id = req.params.id;
-    const task = await Task.findByPk(id);
-    //  const { userId } = req.session.auth
-    const { title, details, categoryId, completed, public, due } = req.body;
+    const task = await Task.findByPk(id, {
+      include: Category,
+    });
+    const categories = await Category.findAll({
+      where: {
+        userId: res.locals.user.id,
+      },
+    });
     if (task) {
-      const updatedTask = await task.update({
-        userId,
-        title,
-        details,
-        categoryId,
-        completed,
-        public,
-        due,
+      res.render("testEditTask", {
+        title: "Edit Task:",
+        task,
+        id,
+        categories,
+        csrfToken: req.csrfToken(),
       });
-      // Maybe change parameter req.body
-      res.json({ updatedTask });
     } else {
       next(taskNotFoundError(id));
     }
@@ -184,16 +197,35 @@ router.put(
 );
 
 router.put(
-  "/:id/check",
+  "/api/edit/:id(\\d+)",
   asyncHandler(async (req, res, next) => {
     const id = req.params.id;
-    const task = await Task.findByPk(id);
-    //  const { userId } = req.session.auth
+    let task = await Task.findByPk(id);
     if (task) {
+      console.log(req.body);
+      if (req.body.due === "") {
+        req.body.due = null;
+      }
+      console.log(req.body);
+      // console.log(public)
+      if (req.body.public === "false") {
+        req.body.public = false;
+      } else if (req.body.public === "true") {
+        req.body.public = true;
+      }
+      if (req.body.categoryId === "No Category") {
+        req.body.categoryId = null;
+      }
 
-      task.completed = "true";
-      await task.save();
-      res.json({ task });
+      console.log(task);
+      await task.update({
+        title: req.body.title,
+        details: req.body.details,
+        categoryId: req.body.categoryId,
+        public: req.body.public,
+        due: req.body.due,
+      });
+      res.send({ success: true });
     } else {
       next(taskNotFoundError(id));
     }
@@ -210,6 +242,22 @@ router.delete(
       const deleteTask = await task.destroy();
       // Maybe change parameter req.body
       res.json({ deleteTask });
+    } else {
+      next(taskNotFoundError(id));
+    }
+  })
+);
+
+router.put(
+  "/:id/check",
+  asyncHandler(async (req, res, next) => {
+    const id = req.params.id;
+    const task = await Task.findByPk(id);
+    //  const { userId } = req.session.auth
+    if (task) {
+      task.completed = "true";
+      await task.save();
+      res.json({ task });
     } else {
       next(taskNotFoundError(id));
     }

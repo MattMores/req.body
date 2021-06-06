@@ -16,7 +16,7 @@ html
         h6
           a(href="/tasks" style="text-decoration:none") My Tasks
         h6
-          a(href="http://localhost:8080/users/logout" style="text-decoration:none") Logout
+          a(href="/users/logout" style="text-decoration:none") Logout
       else
         h6
           a(href="/users/login" style="text-decoration:none") Login
@@ -27,7 +27,7 @@ html
         nav.side-bar
             ul
               li
-                a(href='/add') Add a category
+                a(href='/categories/create') Add a category
                 //- add a category/ regular first then ajax if possible
                 each category in categories
                   li
