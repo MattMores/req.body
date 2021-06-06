@@ -39,13 +39,18 @@ router.get(
 );
 
 const taskValidators = [
-  check("title")
-    .exists({ checkFalsy: true })
-    .withMessage("Enter task title")
-    .isLength({ max: 50 })
-    .withMessage(
-      "Task title must be less than 50 characters! Save some for the details section!"
-    ),
+    check('title')
+        .exists({ checkFalsy: true })
+        .withMessage('Enter task title')
+        .isLength({ max: 50 })
+        .withMessage("Task title must be less than 50 characters! Save some for the details section!")
+        .custom((value) => {
+            let emptyString = '  '
+            if (value.trim() === emptyString.trim()) {
+                throw new Error("Title cannot be empty space");
+            }
+            return true;
+        }),
 ];
 
 router.post(

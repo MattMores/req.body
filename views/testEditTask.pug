@@ -10,10 +10,15 @@ block content
         //- input(type='hidden' name='_csrf' value=csrfToken)
         <div class="row">
             <h1 style="text-align:center">#{title}</h1>
-            +validationErrorSummary(errors)
+            div(id='errorsList' role='alert')
+            //- +validationErrorSummary(errors)
+                    //- p The following error(s) occurred:
+                    //-     ul
+                    //-     each error in errors
+                    //-         li= error
             <div class="col">
-            label(for="title") Title:
-                input(type="text" name="title" placeholder="Task title" value=task.title)
+            label(for="title" id= "titleLabel") Title:
+                input(type="text" name="title" placeholder="Task title" id= "titleInput" value=task.title)
             if categories && categories.length > 0
                 label(for="category" id='selectCategoryLabel') Category:
                 select(name="category" id='selectCategorySelector')
