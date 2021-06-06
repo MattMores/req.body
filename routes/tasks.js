@@ -121,12 +121,20 @@ router.get(
             },
             include: Task,
         });
+        // const incompleteTasks = await Task.findAll({
+        //     where: {
+        //         categoryId: null,
+        //         userId,
+        //         completed: "false",
+        //     },
+        // });
         const incompleteTasks = await Task.findAll({
             where: {
-                categoryId: null,
+                // categoryId: null,
                 userId,
                 completed: "false",
             },
+            include: Category
         });
         const completedTasks = await Task.findAll({
             where: {
@@ -136,8 +144,8 @@ router.get(
             },
         });
 
-        // console.log(categories)
-        res.render("mytasks", { categories, incompleteTasks, completedTasks, listTitle: 'My Tasks' });
+        console.log(incompleteTasks)
+        res.render("superTESTMYTASK", { categories, incompleteTasks, completedTasks, listTitle: 'My Tasks' });
     })
 );
 
