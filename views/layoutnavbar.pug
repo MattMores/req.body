@@ -8,14 +8,22 @@ html
         link(rel="stylesheet" href="/stylesheets/index.css")
   body
     header.header
-      h2.name REQ<b>.</b>BODY
+      //- h2.name REQ<b>.</b>BODY
+      h2
+        a(href="/" style="text-decoration:none" class='name') REQ<b>.</b>BODY
       .tabs
       if locals.authenticated
-        h6 Home
-        h6 My Tasks
+        h6
+          a(href="/tasks" style="text-decoration:none") Home
+        h6
+          a(href="/tasks" style="text-decoration:none") My Tasks
+        h6
+          a(href="/users/logout" style="text-decoration:none") Logout
       else
-        h6 Login
-        h6 Signup
+        h6
+          a(href="/users/login" style="text-decoration:none") Login
+        h6
+          a(href="/users/register" style="text-decoration:none") Signup
     .body
       if locals.authenticated
         nav.side-bar

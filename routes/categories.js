@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Category } = require("../db/models");
+const { Category, Task } = require("../db/models");
 const { check, validationResult } = require('express-validator');
 const { asyncHandler, csrfProtection } = require("../utils");
 const { requireAuth } = require('../auth')
@@ -51,10 +51,39 @@ router.get(
 router.get(
   "/:id",
   asyncHandler(async (req, res, next) => {
+    const { userId } = req.session.auth;
     const id = req.params.id;
-    const findCat = await Category.findByPk(id);
-    if (findCat) {
-      res.json({ findCat });
+    const categories = await Category.findAll({
+      where: {
+        userId: userId,
+      },
+      include: Task,
+    });
+    const category = await Category.findByPk(id);
+
+    const incompleteTasks = await Task.findAll({
+      where: {
+        categoryId: id,
+        userId: userId,
+        completed: "false",
+      },
+    });
+
+    const completedTasks = await Task.findAll({
+      where: {
+        categoryId: id,
+        userId: userId,
+        completed: "true",
+      },
+    });
+
+    if (category) {
+      res.render("mytasks", {
+        categories,
+        incompleteTasks,
+        completedTasks,
+        listTitle: `${category.title}`,
+      });
     } else {
       next(catNotFoundError(id));
     }
