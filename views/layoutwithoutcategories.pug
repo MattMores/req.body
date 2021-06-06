@@ -1,14 +1,15 @@
 doctype html
 html
   head
-      block head
-        title="Express Starter App"
-        link(rel="stylesheet", href="/stylesheets/login.css")
-        link(rel='stylesheet' href='/stylesheets/reset.css')
-        link(rel="stylesheet" href="/stylesheets/index.css")
+    block head
+      title="Express Starter App"
+      link(rel="stylesheet" href="/stylesheets/login.css")
+      link(rel='stylesheet' href='/stylesheets/reset.css')
+      link(rel="stylesheet" href="/stylesheets/index.css")
   body
     header.header
-      h2.name REQ<b>.</b>BODY
+      img(src="https://i.ibb.co/5LrJRgm/logo-1.png" class='logo')
+      //- h2.name REQ<b>.</b>BODY
       .tabs
       if locals.authenticated
         h6

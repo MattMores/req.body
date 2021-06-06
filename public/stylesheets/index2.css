@@ -1,0 +1,25 @@
+.body {
+    display: flex;
+    justify-content: center;
+}
+.splash_background {
+
+    background-image: url('https://i.ibb.co/CBzDfbp/62702-req-body-Logo-MJ-01.jpg');
+    width: 640px;
+    height: 300px;
+    position: relative;
+}
+
+.quoteDiv {
+    width: 650px;
+    height: 300px;
+    position: absolute;
+    top: 400px;
+    display: flex;
+    justify-content: center;
+}
+
+#quoteButton {
+    height: 50px;
+    width: 90px;
+}
