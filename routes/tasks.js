@@ -162,6 +162,10 @@ router.get(
     })
 );
 
+// router.get("/", asyncHandler(async (req, res, next) => {
+
+// }))
+
 router.post(
     "/",
     asyncHandler(async (req, res) => {
