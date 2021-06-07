@@ -58,10 +58,8 @@ router.post(
     csrfProtection,
     taskValidators,
     asyncHandler(async (req, res) => {
-        console.log(res.locals);
-        console.log(req.session.auth);
-        console.log(req.body);
-        const { title, details, due, category, public } = req.body;
+
+        const { title, details, due, categoryId, public } = req.body;
 
         let errors = [];
         const validatorErrors = validationResult(req);
@@ -70,7 +68,7 @@ router.post(
             userId: res.locals.user.id,
             title,
             details,
-            categoryId: category,
+            categoryId,
             due,
             public,
         });
@@ -81,10 +79,10 @@ router.post(
 
         const categories = user.Categories;
 
-        if (category === "No Category" || !category) {
+        if (categoryId === "No Category") {
             task.categoryId = null;
         } else {
-            task.categoryId = parseInt(category, 10);
+            task.categoryId = parseInt(categoryId, 10);
         }
 
         if (!due) {

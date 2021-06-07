@@ -178,7 +178,7 @@ router.get('/logout', asyncHandler(async (req, res) => {
   // console.log(req.session.auth.username)
   if (req.session.auth) {
 
-    if (req.session.auth.username === /^(DemoUser)+/) {
+    if (req.session.auth.firstName === 'demoFirstName5252') {
       // logoutUser(req, res)
       const user = await User.findByPk(req.session.auth.userId)
       const tasks = await Task.findAll({
@@ -226,7 +226,7 @@ router.get('/demo', asyncHandler(async (req, res) => {
   const user = db.User.build({
     username: `DemoUser${random}`,
     email: `demo${random}@demoUser.com`,
-    firstName: "demoFirstName",
+    firstName: "demoFirstName5252",
     lastName: "demoLastName",
     hashedPassword: "Password123!"
   })
