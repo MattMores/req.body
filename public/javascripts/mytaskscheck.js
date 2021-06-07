@@ -15,11 +15,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       if (res.ok) {
         const taskContainer = document.querySelector(".completeContainer");
         const editCheckButtons = document.querySelectorAll(`#remove-${id}`);
+        const deleteButton = document.querySelector(`#delete-${id}`)
         taskContainer.appendChild(task);
 
         editCheckButtons.forEach((editCheckButton) => {
           editCheckButton.style.display = "none";
         });
+        deleteButton.style.width = '410px';
+
       }
     });
   });

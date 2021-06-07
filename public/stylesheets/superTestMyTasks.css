@@ -64,19 +64,24 @@ li {
       /* overflow: auto; */
     }
 
-    #taskComplete{
+    .taskComplete{
       background-color: #04AA6D;
     }
-    #taskEdit{
+    .taskEdit{
         background-color: #95A5A6;
     }
-    #taskDelete{
+    .taskDelete{
         background-color: rgb(255, 50, 50);
     }
     #taskDeleteButton{
         width: 410px;
         background-color: rgb(255, 50, 50);
     }
+
+    .completeDeleteButton {
+      width: 410px;
+    }
+
     .col-1 {
       /* flex-basis: 10%; */
       flex-basis: 20%;
@@ -95,5 +100,3 @@ li {
       flex-basis: 25%;
       /* flex-direction: column; */
     }
-
-

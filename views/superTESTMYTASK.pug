@@ -2,7 +2,8 @@ extends testLayoutnavbar.pug
 
 append head
   link(rel="stylesheet" href="/stylesheets/superTestMyTasks.css")
-
+  script(src="/javascripts/mytasksdelete.js" type="module" defer)
+  script(src="/javascripts/mytaskscheck.js" type="module" defer)
 block content
     <div class="whitespace">
         <h2>Workouts<small></small></h2>
@@ -16,18 +17,29 @@ block content
             //- <div class='btn col-5'>Testing</div>
             </li>
             each incompleteTask in incompleteTasks
-                <li class="table-row">
-                div(class="col col-1")= incompleteTask.title
-                div(class="col col-2")= incompleteTask.details
-                div(class="col col-3")= incompleteTask.Category.title
-                div(class='col col-4')= incompleteTask.due
-                //- <div class="col col-4">:00pm</div>
-                button(class='btn' id='taskComplete') Complete
-                button(class='btn' id='taskEdit') Edit
-                button(class='btn' id='taskDelete') Delete
+
+                li(class="table-row" id=`task-${incompleteTask.id}`)
+                    div(class="col col-1")= incompleteTask.title
+                    if incompleteTask.details
+                        div(class="col col-2")= incompleteTask.details
+                    else
+                        div(class="col col-2") N/A
+                    if incompleteTask.Category
+                        div(class="col col-3")= incompleteTask.Category.title
+                    else
+                        div(class="col col-3") N/A
+                    if incompleteTask.due
+                        div(class='col col-4')= incompleteTask.due
+                    else
+                        div(class='col col-4') N/A
+                    //- <div class="col col-4">:00pm</div>
+                    button(class='btn taskComplete' id=`remove-${incompleteTask.id}`).check Complete
+                    a(href=`/tasks/edit/${incompleteTask.id}`)
+                        button(class='btn taskEdit' id=`remove-${incompleteTask.id}`).edit Edit
+                    button(class='btn taskDelete' id=`delete-${incompleteTask.id}`).delete Delete
                 //- button(class='btn' id='smallerBtn') Delete
             //- <div class="col col-4" data-label="Payment Status">Buttons</div>
-            </li>
+            //- </li>
             //- <li class="table-row">
             //- <div class="col col-1" data-label="Job Id">42442</div>
             //- <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
@@ -58,14 +70,23 @@ block content
             <div class="col col-4">Actions</div>
             //- <div class='btn col-5'>Testing</div>
             </li>
-            <li class="table-row">
-            <div class="col col-1">Jog</div>
-            <div class="col col-2">Go running for 40 miles, then jump off a bridge </div>
-            <div class="col col-3" data-label="Amount">Cardio</div>
-            <div class="col col-4" data-label="Payment Status">6:00pm</div>
-                button(class='btn' id='taskDeleteButton') Delete
-                //- button(class='btn' id='smallerBtn') Delete
-            //- <div class="col col-4" data-label="Payment Status">Buttons</div>
+            .completeContainer
+            each completeTask in completedTasks
+                li(class="table-row" id=`task-${completeTask.id}`)
+                    div(class="col col-1")= completeTask.title
+                    if completeTask.details
+                        div(class="col col-2")= completeTask.details
+                    else
+                        div(class="col col-2") N/A
+                    if completeTask.Category
+                        div(class="col col-3")= completeTask.Category.title
+                    else
+                        div(class="col col-3") N/A
+                    if completeTask.due
+                        div(class='col col-4')= completeTask.due
+                    else
+                        div(class='col col-4') N/A
+                    //- <div class="col col-4">:00pm</div>
+                    button(class='btn taskDelete completeDeleteButton' id=`delete-${completeTask.id}`).delete Delete
             </li>
-    </div>
-    </div>
+        </ul>

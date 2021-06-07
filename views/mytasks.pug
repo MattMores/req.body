@@ -21,8 +21,8 @@ block content
               .buttons
                 button(id=`remove-${incompleteTask.id}`).check checkmark
                 button(id=`delete-${incompleteTask.id}`).delete delete
+                  a(href=`/tasks/edit/${incompleteTask.id}`)
                 button(id=`remove-${incompleteTask.id}`).edit edit
-
     .complete
       h3 Completed
       .container.completeContainer
@@ -30,4 +30,4 @@ block content
           div(class='tasks' id=completedTask.id)
             span #{completedTask.title}
               .buttons
-                button(id=`delete-${completedTask.id}`).delete delete
+                button(id=`delete-${completedTask.id}` class='btn').delete delete
