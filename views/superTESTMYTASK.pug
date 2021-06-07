@@ -1,0 +1,92 @@
+extends testLayoutnavbar.pug
+
+append head
+  link(rel="stylesheet" href="/stylesheets/superTestMyTasks.css")
+  script(src="/javascripts/mytasksdelete.js" type="module" defer)
+  script(src="/javascripts/mytaskscheck.js" type="module" defer)
+block content
+    <div class="whitespace">
+        <h2>Workouts<small></small></h2>
+        <ul class="responsive-table">
+            <li class="table-header">
+            <div class="col col-1">Title</div>
+            <div class="col col-2">Details</div>
+            <div class="col col-3">Category</div>
+            <div class="col col-4">Due</div>
+            <div class="col col-4">Actions</div>
+            //- <div class='btn col-5'>Testing</div>
+            </li>
+            each incompleteTask in incompleteTasks
+
+                li(class="table-row" id=`task-${incompleteTask.id}`)
+                    div(class="col col-1")= incompleteTask.title
+                    if incompleteTask.details
+                        div(class="col col-2")= incompleteTask.details
+                    else
+                        div(class="col col-2") N/A
+                    if incompleteTask.Category
+                        div(class="col col-3")= incompleteTask.Category.title
+                    else
+                        div(class="col col-3") N/A
+                    if incompleteTask.due
+                        div(class='col col-4')= incompleteTask.due
+                    else
+                        div(class='col col-4') N/A
+                    //- <div class="col col-4">:00pm</div>
+                    button(class='btn taskComplete' id=`remove-${incompleteTask.id}`).check Complete
+                    a(href=`/tasks/edit/${incompleteTask.id}`)
+                        button(class='btn taskEdit' id=`remove-${incompleteTask.id}`).edit Edit
+                    button(class='btn taskDelete' id=`delete-${incompleteTask.id}`).delete Delete
+                //- button(class='btn' id='smallerBtn') Delete
+            //- <div class="col col-4" data-label="Payment Status">Buttons</div>
+            //- </li>
+            //- <li class="table-row">
+            //- <div class="col col-1" data-label="Job Id">42442</div>
+            //- <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
+            //- <div class="col col-3" data-label="Amount">$220</div>
+            //- <div class="col col-4" data-label="Payment Status">Pending</div>
+            //- </li>
+            //- <li class="table-row">
+            //- <div class="col col-1" data-label="Job Id">42257</div>
+            //- <div class="col col-2" data-label="Customer Name">John Smith</div>
+            //- <div class="col col-3" data-label="Amount">$341</div>
+            //- <div class="col col-4" data-label="Payment Status">Pending</div>
+            //- </li>
+            //- <li class="table-row">
+            //- <div class="col col-1" data-label="Job Id">42311</div>
+            //- <div class="col col-2" data-label="Customer Name">John Carpenter</div>
+            //- <div class="col col-3" data-label="Amount">$115</div>
+            //- <div class="col col-4" data-label="Payment Status">Pending</div>
+            //- </li>
+        </ul>
+        <div class="whitespaceAgain">
+        <h2>Completed<small></small></h2>
+        <ul class="responsive-table">
+            <li class="table-header">
+            <div class="col col-1">Title</div>
+            <div class="col col-2">Details</div>
+            <div class="col col-3">Category</div>
+            <div class="col col-4">Due</div>
+            <div class="col col-4">Actions</div>
+            //- <div class='btn col-5'>Testing</div>
+            </li>
+            .completeContainer
+            each completeTask in completedTasks
+                li(class="table-row" id=`task-${completeTask.id}`)
+                    div(class="col col-1")= completeTask.title
+                    if completeTask.details
+                        div(class="col col-2")= completeTask.details
+                    else
+                        div(class="col col-2") N/A
+                    if completeTask.Category
+                        div(class="col col-3")= completeTask.Category.title
+                    else
+                        div(class="col col-3") N/A
+                    if completeTask.due
+                        div(class='col col-4')= completeTask.due
+                    else
+                        div(class='col col-4') N/A
+                    //- <div class="col col-4">:00pm</div>
+                    button(class='btn taskDelete completeDeleteButton' id=`delete-${completeTask.id}`).delete Delete
+            </li>
+        </ul>

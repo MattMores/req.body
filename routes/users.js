@@ -178,7 +178,7 @@ router.get('/logout', asyncHandler(async (req, res) => {
   // console.log(req.session.auth.username)
   if (req.session.auth) {
 
-    if (req.session.auth.username === "DemoUser") {
+    if (req.session.auth.username === /^(DemoUser)+/) {
       // logoutUser(req, res)
       const user = await User.findByPk(req.session.auth.userId)
       const tasks = await Task.findAll({
@@ -222,14 +222,15 @@ router.get('/demo', asyncHandler(async (req, res) => {
   if (req.session.auth) {
     // res.redirect('/tasks')
   }
-
+  let random = Math.floor(Math.random() * 5000)
   const user = db.User.build({
-    username: "DemoUser",
-    email: "demo@demoUser.com",
+    username: `DemoUser${random}`,
+    email: `demo${random}@demoUser.com`,
     firstName: "demoFirstName",
     lastName: "demoLastName",
     hashedPassword: "Password123!"
   })
+
 
   if (user) {
     await user.save();

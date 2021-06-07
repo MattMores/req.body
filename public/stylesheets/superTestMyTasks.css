@@ -1,0 +1,102 @@
+/* body {
+    font-family: 'lato', sans-serif;
+  } */
+  .body {
+      display: flex;
+      /* display: grid; */
+      /* grid-gap: 1rem;
+      grid-template-columns: repeat(auto-fit, min-max(150px, 1fr));
+      flex-direction: column;
+  } */
+}
+  .whitespace {
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+  }
+  .whitespaceAgain {
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  h2 {
+    font-size: 26px;
+    margin: 20px 0;
+    text-align: center;
+
+
+  }
+
+li {
+      border-radius: 3px;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+}
+.btn{
+    /* width: 440px; */
+    width: 95px;
+    margin: 2px;
+    position: relative;
+    bottom: 18px;
+
+    /* width: 340px; */
+}
+    .table-header {
+      background-color: #95A5A6;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .table-row {
+      background-color: #ffffff;
+      box-shadow: 0px 0px 9px 0px rgba(0,0,0,0.1);
+      /* overflow: auto; */
+    }
+
+    .taskComplete{
+      background-color: #04AA6D;
+    }
+    .taskEdit{
+        background-color: #95A5A6;
+    }
+    .taskDelete{
+        background-color: rgb(255, 50, 50);
+    }
+    #taskDeleteButton{
+        width: 410px;
+        background-color: rgb(255, 50, 50);
+    }
+
+    .completeDeleteButton {
+      width: 410px;
+    }
+
+    .col-1 {
+      /* flex-basis: 10%; */
+      flex-basis: 20%;
+    }
+    .col-2 {
+      flex-basis: 40%;
+      overflow: auto;
+    }
+    .col-3 {
+      flex-basis: 25%;
+    }
+    .col-4 {
+      flex-basis: 25%;
+    }
+    .col-5 {
+      flex-basis: 25%;
+      /* flex-direction: column; */
+    }

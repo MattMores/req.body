@@ -18,6 +18,11 @@
   background: #23242b;
   color: fff;
   padding-left: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  position: sticky;
+  top: 0px;
+  overflow: hidden;
+  z-index: 20;
 }
 
 .name {
@@ -35,7 +40,7 @@
 .side-bar {
   width: 200px;
   background: #343742;
-  min-height: 100vh;
+  min-height: 100vw;
 }
 
 .side-bar ul li {
