@@ -4,7 +4,6 @@ const { Task, User, Category } = require("../db/models");
 const { check, validationResult } = require("express-validator");
 const { asyncHandler, csrfProtection } = require("../utils");
 const { requireAuth } = require("../auth");
-const { json } = require("express");
 const taskNotFoundError = (id) => {
   const err = Error(`Task ${id} could not be found.`);
   err.title = `Task not found.`;
@@ -52,14 +51,63 @@ router.get(
 );
 
 router.post(
+  "/randomTask",
+  csrfProtection,
+  asyncHandler(async (req, res, next) => {
+    const task = await Task.findAll({
+      where: {
+        public: false,
+      },
+      include: Category,
+    });
+
+    const randomTask = Task.build({
+      userId: res.locals.user.id,
+      title: task.title,
+      details: task.details,
+      categoryId,
+      due,
+      public,
+    });
+
+    res.render("randomTask", {
+      title: "randomized task!",
+      task,
+      categories,
+      csrfToken: req.csrfToken(),
+    });
+    res.redirect("/tasks");
+  })
+);
+
+router.post(
   "/add",
   csrfProtection,
   taskValidators,
   asyncHandler(async (req, res) => {
-    const { title, details, due, categoryId, public } = req.body;
+
+    let { title, details, due, categoryId, public } = req.body;
+    console.log(typeof due)
+    console.log(req.body)
+    console.log(categoryId)
+
     let errors = [];
     const validatorErrors = validationResult(req);
+    console.log(categoryId)
+    console.log(Array.isArray(categoryId))
+    console.log(categoryId[0])
+    if (Array.isArray(categoryId)) {
+      categoryId = categoryId[0]
+    }
+    if (categoryId === "No Category") {
+      categoryId = null;
+    } else {
+      categoryId = parseInt(categoryId, 10);
+    }
 
+    if (!due) {
+      due = null;
+    }
     const task = Task.build({
       userId: res.locals.user.id,
       title,
@@ -68,21 +116,7 @@ router.post(
       due,
       public,
     });
-    const user = await User.findByPk(res.locals.user.id, {
-      include: [Category],
-    });
-
-    const categories = user.Categories;
-
-    if (categoryId === "No Category") {
-      task.categoryId = null;
-    } else {
-      task.categoryId = parseInt(categoryId, 10);
-    }
-
-    if (!due) {
-      task.due = null;
-    }
+    // console.log(categoryId)
     if (validatorErrors.isEmpty()) {
       await task.save();
       res.redirect("/tasks");
@@ -157,6 +191,10 @@ router.get(
     }
   })
 );
+
+// router.get("/", asyncHandler(async (req, res, next) => {
+
+// }))
 
 router.post(
   "/",

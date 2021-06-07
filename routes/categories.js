@@ -198,4 +198,35 @@ router.get(
   })
 );
 
+router.delete('/api/delete/:id', requireAuth, asyncHandler(async (req, res) => {
+  const id = req.params.id
+  // console.log(typeof id)
+  // const newId = parseInt(id, 10)
+  // console.log(typeof newId)
+  let category = await Category.findByPk(id)
+
+  let tasks = await Task.findAll({
+    where: {
+      userId: res.locals.user.id,
+      categoryId: id
+    }
+  })
+
+  if (tasks) {
+
+    await tasks.forEach(task => {
+      task.update({
+        categoryId: null
+      })
+      // task.categoryId = null;
+    })
+  }
+
+  if (category) {
+    const deleteCategory = await category.destroy();
+    res.json({ deleteCategory });
+  }
+
+}))
+
 module.exports = router;

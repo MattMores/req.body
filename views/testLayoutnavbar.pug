@@ -6,6 +6,7 @@ html
         link(rel="stylesheet", href="/stylesheets/login.css")
         link(rel='stylesheet' href='/stylesheets/reset.css')
         link(rel="stylesheet" href="/stylesheets/index.css")
+        script(type='text/javascript' src='/javascripts/deleteCategory.js')
   body
     header.header
       a(href='/')
@@ -14,7 +15,13 @@ html
       .tabs
       if locals.authenticated
         h6
-          a(href="/tasks" style="text-decoration:none") Home
+          .addTask
+          a(href='/tasks' style="text-decoration:none") Random Task
+            //- button(id='add_task') random Task
+        h6
+          .randomTask
+          a(href='/tasks/create' style="text-decoration:none") Add Task
+            //- button(id='add_task') Add Task
         h6
           a(href="/tasks" style="text-decoration:none") My Tasks
         h6
@@ -35,4 +42,6 @@ html
                   li
                     a(href=`/categories/${category.id}`)
                       span #{category.title}
+                        button(class='categoryDeleteBtn' id=`${category.id}`).toDelete Delete
+                          //- a(href=`/categories/delete/${category.id}`)
       block content

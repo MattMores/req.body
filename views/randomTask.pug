@@ -6,25 +6,18 @@ append head
 
 block content
     <div class="container">
-    <form action='/tasks/add' method='post'>
-        input(type='hidden' name='_csrf' value=csrfToken)
+    <form action='/randomTask' method='post'>
         <div class="row">
             <h1 style="text-align:center">#{title}</h1>
-            if errors
-                div(class='errorsList' role='alert')
-                    p The following error(s) occurred:
-                        ul
-                        each error in errors
-                            li= error
+
             <div class="col">
             label(for="title") Title:
-                input(type="text" name="title" placeholder="Task title")
+                input(type="text" name="title" placeholder=`${task.title}`)
             if categories && categories.length > 0
                 label(for="categoryId" id='selectCategoryLabel') Category:
                 select(name="categoryId" id='selectCategorySelector')
                     option No Category
-                    each category in categories
-                        option(value=category.id)= category.title
+
             else
                 div(id="everything")
                     p: em(id= "organizeYourLIfe") Add a category to further organize your tasks!
@@ -34,14 +27,14 @@ block content
                 input(type='text' id="createAnotherCategory__input" style="display:none")
                 button(type='submit' class='btn' id="createAnotherCategory__submit" style="display:none") Create
                 button(type='submit' class='btn' id="createAnotherCategory__cancel" style="display:none") Cancel
-            label(for="categoryId" id='selectCategoryLabelHidden' style='display:none') Category:
-                select(name="categoryId" id='selectCategorySelectorHidden' style='display:none')
+            label(for="category" id='selectCategoryLabelHidden' style='display:none') Category:
+                select(name="category" id='selectCategorySelectorHidden' style='display:none')
                     option No Category
                     each category in categories
                         option(value=category.id)= category.title
             button(type="submit" class='btn' id="createAnotherCategory") Create another Category
             label(for="details") Details:
-                textarea(type="text" name="details" placeholder="Add some detail!" cols="30", rows="6")
+                textarea(type="text" name="details" placeholder=`${task.details}` cols="30", rows="6")
             label(for="due") Due:
             input(type="datetime-local" name="due")
             label(for="public") Privacy:
@@ -62,4 +55,3 @@ block content
     </div>
     </div>
     script(type='text/javascript' src='/javascripts/addTask.js')
-
