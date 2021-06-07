@@ -100,7 +100,7 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { userId } = req.session.auth;
     const { title } = req.body;
-
+    console.log('*****************where are we****************')
     let errors = [];
     const validatorErrors = validationResult(req);
     // let emptyString = '    '
@@ -112,6 +112,7 @@ router.post(
       userId,
       title
     })
+    console.log('*****************bap****************')
 
     if (validatorErrors.isEmpty()) {
       // await Category.create({ userId, title });
@@ -119,12 +120,12 @@ router.post(
       res.redirect("/tasks");
     } else {
       errors = validatorErrors.array().map((error) => error.msg);
+      res.render("addCategory.pug", {
+        title: "Add Category:",
+        errors,
+        csrfToken: req.csrfToken(),
+      });
     }
-    res.render("addCategory.pug", {
-      title: "Add Category:",
-      errors,
-      csrfToken: req.csrfToken(),
-    });
     // res.json({ createCategory });
   })
 );
