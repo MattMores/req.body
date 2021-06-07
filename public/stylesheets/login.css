@@ -225,6 +225,36 @@ input[type=submit]:hover {
   /* margin-left: 300px; */
 }
 
+.categoryDeleteBtn{
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none; /* remove underline from anchors */
+  position: relative;
+  top: .1px;
+  padding: 0;
+  left: 20px;
+  margin: 5px;
+  width: 50px;
+  background-color: lightgrey;
+}
+
+/* #deleteCategory{
+  position: relative;
+  top: .1px;
+  padding: 0;
+  left: 20px;
+  margin: 5px;
+  width: 50px;
+  background-color: lightgrey;
+} */
+
 
 /* .bottom-container {
     text-align: center;

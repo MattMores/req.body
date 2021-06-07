@@ -59,11 +59,28 @@ router.post(
     taskValidators,
     asyncHandler(async (req, res) => {
 
-        const { title, details, due, categoryId, public } = req.body;
+        let { title, details, due, categoryId, public } = req.body;
+        console.log(typeof due)
         console.log(req.body)
+        console.log(categoryId)
+
         let errors = [];
         const validatorErrors = validationResult(req);
+        console.log(categoryId)
+        console.log(Array.isArray(categoryId))
+        console.log(categoryId[0])
+        if (Array.isArray(categoryId)) {
+            categoryId = categoryId[0]
+        }
+        if (categoryId === "No Category") {
+            categoryId = null;
+        } else {
+            categoryId = parseInt(categoryId, 10);
+        }
 
+        if (!due) {
+            due = null;
+        }
         const task = Task.build({
             userId: res.locals.user.id,
             title,
@@ -79,15 +96,7 @@ router.post(
 
         const categories = user.Categories;
 
-        if (categoryId === "No Category") {
-            task.categoryId = null;
-        } else {
-            task.categoryId = parseInt(categoryId, 10);
-        }
-
-        if (!due) {
-            task.due = null;
-        }
+        // console.log(categoryId)
         if (validatorErrors.isEmpty()) {
             await task.save();
             res.redirect("/tasks");

@@ -34,8 +34,8 @@ block content
                 input(type='text' id="createAnotherCategory__input" style="display:none")
                 button(type='submit' class='btn' id="createAnotherCategory__submit" style="display:none") Create
                 button(type='submit' class='btn' id="createAnotherCategory__cancel" style="display:none") Cancel
-            label(for="category" id='selectCategoryLabelHidden' style='display:none') Category:
-                select(name="category" id='selectCategorySelectorHidden' style='display:none')
+            label(for="categoryId" id='selectCategoryLabelHidden' style='display:none') Category:
+                select(name="categoryId" id='selectCategorySelectorHidden' style='display:none')
                     option No Category
                     each category in categories
                         option(value=category.id)= category.title
