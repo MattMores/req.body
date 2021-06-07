@@ -23,6 +23,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     "createAnotherCategory__cancel"
   );
 
+
   const psuedoCancel = async () => {
     hiddenInputField.value = "";
     console.log(hiddenInputField.value);
