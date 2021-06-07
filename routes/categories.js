@@ -108,9 +108,14 @@ router.post(
 
     //   const emptyStringError = new Error('Cannot add an empty category')
     // }
+    const category = await Category.build({
+      userId,
+      title
+    })
 
     if (validatorErrors.isEmpty()) {
-      await Category.create({ userId, title });
+      // await Category.create({ userId, title });
+      await category.save()
       res.redirect("/tasks");
     } else {
       errors = validatorErrors.array().map((error) => error.msg);
