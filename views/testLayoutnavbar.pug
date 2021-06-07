@@ -9,7 +9,9 @@ html
         script(type='text/javascript' src='/javascripts/deleteCategory.js')
   body
     header.header
-      img(src="https://i.ibb.co/5LrJRgm/logo-1.png" class='logo')
+      a(href='/')
+        .redirectImgDiv
+          img(src="https://i.ibb.co/5LrJRgm/logo-1.png" class='logo')
       .tabs
       if locals.authenticated
         h6

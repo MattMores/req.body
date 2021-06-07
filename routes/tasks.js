@@ -31,18 +31,15 @@ router.get(
   "/create",
   csrfProtection,
   asyncHandler(async (req, res, next) => {
-    console.log("the problem is here");
     // res.send('test')
     const task = Task.build();
 
-    // console.log(res.locals.user)
     const user = await User.findByPk(res.locals.user.id, {
       include: [Category],
     });
 
     const categories = user.Categories;
 
-    console.log(categories);
     // res.send('here')
     res.render("addTask", {
       title: "Add task!",
@@ -141,10 +138,9 @@ router.get(
   requireAuth,
   asyncHandler(async (req, res, next) => {
     // res.send('why are you here')
-    // console.log(res.locals)
 
     const { userId } = req.session.auth;
-    console.log(userId);
+
     const categories = await Category.findAll({
       where: {
         userId,
@@ -174,7 +170,6 @@ router.get(
       },
     });
 
-    // console.log(incompleteTasks)
     res.render("superTESTMYTASK", {
       categories,
       incompleteTasks,
@@ -254,12 +249,9 @@ router.put(
     const id = req.params.id;
     let task = await Task.findByPk(id);
     if (task) {
-      console.log(req.body);
       if (req.body.due === "") {
         req.body.due = null;
       }
-      console.log(req.body);
-      // console.log(public)
       if (req.body.public === "false") {
         req.body.public = false;
       } else if (req.body.public === "true") {
@@ -269,7 +261,6 @@ router.put(
         req.body.categoryId = null;
       }
 
-      console.log(task);
       await task.update({
         title: req.body.title,
         details: req.body.details,
@@ -317,3 +308,4 @@ router.put(
 );
 
 module.exports = router;
+

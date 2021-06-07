@@ -67,6 +67,13 @@
   /* width: 400px; */
 }
 
+.redirectImgDiv {
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  margin-left: 10px;
+}
+
 h6 {
   margin-left: 40px;
   margin-right: 40px;

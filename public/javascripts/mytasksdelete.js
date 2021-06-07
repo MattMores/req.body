@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
   deleteButtons.forEach((deleteButton) => {
     deleteButton.addEventListener("click", async (e) => {
       const taskId = e.target.id;
-      console.log(`TESTING TASK ID: ${taskId}`)
       const id = parseInt(taskId.split("-")[1], 10);
-      console.log(`TESTING ID: ${id}`);
       const task = document.querySelector(`#task-${id}`);
       const res = await fetch(`http://localhost:8080/tasks/${id}`, {
         method: "DELETE",
@@ -23,8 +21,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 // document.addEventListener("DOMContentLoaded", async (e) => {
 //   const tasks = document.querySelectorAll(".tasks");
 //   tasks.forEach((task) => {
-//     console.log(task);
-//     console.log(task.childNodes[1].childNodes);
 //     const buttons = task.childNodes[1].childNodes;
 //     buttons.forEach((button) => {
 //       if (button.classList.value === "delete") {

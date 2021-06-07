@@ -84,8 +84,6 @@ const userValidators = [
 ]
 
 router.post('/register', csrfProtection, userValidators, asyncHandler(async (req, res, next) => {
-  // console.log(req.body)
-
   if (req.session.auth) {
     res.redirect('/tasks')
   }
@@ -175,7 +173,6 @@ router.post('/login', csrfProtection, loginValidators, asyncHandler(async (req, 
 }))
 
 router.get('/logout', asyncHandler(async (req, res) => {
-  // console.log(req.session.auth.username)
   if (req.session.auth) {
 
     if (req.session.auth.firstName === 'demoFirstName5252') {
@@ -201,9 +198,7 @@ router.get('/logout', asyncHandler(async (req, res) => {
         category.destroy()
       })
       await user.destroy()
-      // console.log(user)
-      // console.log(tasks)
-      // console.log(categories)
+
       // const user = db.User
     }
 
