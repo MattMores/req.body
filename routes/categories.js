@@ -78,7 +78,7 @@ router.get(
     });
 
     if (category) {
-      res.render("mytasks", {
+      res.render("superTESTMYTASK", {
         categories,
         incompleteTasks,
         completedTasks,
