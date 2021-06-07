@@ -122,14 +122,14 @@ router.post(
       res.redirect("/tasks");
     } else {
       errors = validatorErrors.array().map((error) => error.msg);
+      res.render("addTask", {
+        title: "Add task!",
+        task,
+        categories,
+        errors,
+        csrfToken: req.csrfToken(),
+      });
     }
-    res.render("addTask", {
-      title: "Add task!",
-      task,
-      categories,
-      errors,
-      csrfToken: req.csrfToken(),
-    });
   })
 );
 
