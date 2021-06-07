@@ -57,7 +57,7 @@ taskEditForm.addEventListener('submit', async event => {
 
 
         console.log(body)
-        const res = await fetch(`http://localhost:8080/tasks/api/edit/${number}`, {
+        const res = await fetch(`/tasks/api/edit/${number}`, {
             method: "PUT",
             body: JSON.stringify(body),
             headers: {
