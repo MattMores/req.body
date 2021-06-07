@@ -56,7 +56,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
       // selectCategorySelector.style.color = "black"
       // selectCategoryLabel.style.color = 'black'
       // selectCategoryLabel.style.fontWeight = 'unset'
-      const res = await fetch("http://localhost:8080/categories/api/get");
+      const res = await fetch("/categories/api/get");
 
       const json = await res.json();
       console.log(json.categories);
@@ -183,7 +183,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
         //     everythingDiv.style.display = ''
         //     createCategoryButton.style.display = ''
       } else {
-        const res = await fetch("http://localhost:8080/categories/api/get");
+        const res = await fetch("/categories/api/get");
 
         const json = await res.json();
         if (!json.categories.length) {
@@ -253,7 +253,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
       const value = hiddenInputField.value;
 
       console.log("um");
-      const res = await fetch("http://localhost:8080/categories/api/create", {
+      const res = await fetch("/categories/api/create", {
         method: "POST",
         body: JSON.stringify({ value }),
         headers: { "Content-Type": "application/json" },

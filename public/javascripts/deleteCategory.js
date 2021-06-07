@@ -8,7 +8,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
       console.log(catId);
       const id = parseInt(catId, 10);
       const res = await fetch(
-        `http://localhost:8080/categories/api/delete/${id}`,
+        `/categories/api/delete/${id}`,
         {
           method: "DELETE",
           headers: {
@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
       window.location.href = "/tasks";
       const resAgain = await fetch(
-        `http://localhost:8080/categories/api/delete/${id}`,
+        `/categories/api/delete/${id}`,
         {
           method: "DELETE",
           headers: {

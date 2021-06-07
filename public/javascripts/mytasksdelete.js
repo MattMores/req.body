@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
       const taskId = e.target.id;
       const id = parseInt(taskId.split("-")[1], 10);
       const task = document.querySelector(`#task-${id}`);
-      const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+      const res = await fetch(`/tasks/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
