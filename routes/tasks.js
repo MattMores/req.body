@@ -60,7 +60,7 @@ router.post(
     asyncHandler(async (req, res) => {
 
         const { title, details, due, categoryId, public } = req.body;
-
+        console.log(req.body)
         let errors = [];
         const validatorErrors = validationResult(req);
 
@@ -142,7 +142,7 @@ router.get(
             },
         });
 
-        console.log(incompleteTasks)
+        // console.log(incompleteTasks)
         res.render("superTESTMYTASK", { categories, incompleteTasks, completedTasks, listTitle: 'My Tasks' });
     })
 );
