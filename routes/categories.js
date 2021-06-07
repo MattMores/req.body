@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { Category, Task } = require("../db/models");
-const { check, validationResult } = require('express-validator');
+const { check, validationResult } = require("express-validator");
 const { asyncHandler, csrfProtection } = require("../utils");
-const { requireAuth } = require('../auth')
+const { requireAuth } = require("../auth");
 
 const catNotFoundError = (id) => {
   const err = Error(`Category ${id} not found`);
@@ -12,15 +12,14 @@ const catNotFoundError = (id) => {
   return err;
 };
 
-
 const categoryValidators = [
-  check('title')
+  check("title")
     .exists({ checkFalsy: true })
-    .withMessage('Enter a category')
+    .withMessage("Enter a category")
     .isLength({ max: 50 })
     .withMessage("Category title must be less than 50 characters!")
     .custom((value) => {
-      let emptyString = '  '
+      let emptyString = "  ";
       if (value.trim() === emptyString.trim()) {
         throw new Error("Category cannot be empty space");
       }
@@ -28,17 +27,19 @@ const categoryValidators = [
     }),
 ];
 
-
-router.get('/create', requireAuth, csrfProtection, asyncHandler(async (req, res) => {
-
-  const category = Category.build()
-  res.render("addCategory", {
-    title: "Add Category:",
-    category,
-    csrfToken: req.csrfToken()
+router.get(
+  "/create",
+  requireAuth,
+  csrfProtection,
+  asyncHandler(async (req, res) => {
+    const category = Category.build();
+    res.render("addCategory", {
+      title: "Add Category:",
+      category,
+      csrfToken: req.csrfToken(),
+    });
   })
-}))
-
+);
 
 router.get(
   "/",
@@ -67,6 +68,7 @@ router.get(
         userId: userId,
         completed: "false",
       },
+      include: Category,
     });
 
     const completedTasks = await Task.findAll({
@@ -75,6 +77,7 @@ router.get(
         userId: userId,
         completed: "true",
       },
+      include: Category,
     });
 
     if (category) {
@@ -91,13 +94,15 @@ router.get(
 );
 
 router.post(
-  "/", csrfProtection, categoryValidators,
+  "/",
+  csrfProtection,
+  categoryValidators,
   asyncHandler(async (req, res, next) => {
     const { userId } = req.session.auth;
     const { title } = req.body;
 
     let errors = [];
-    const validatorErrors = validationResult(req)
+    const validatorErrors = validationResult(req);
     // let emptyString = '    '
     // if (title.trim() === emptyString.trim()) {
 
@@ -105,17 +110,16 @@ router.post(
     // }
 
     if (validatorErrors.isEmpty()) {
-
       await Category.create({ userId, title });
-      res.redirect('/tasks')
+      res.redirect("/tasks");
     } else {
-      errors = validatorErrors.array().map((error) => error.msg)
+      errors = validatorErrors.array().map((error) => error.msg);
     }
-    res.render('addCategory.pug', {
+    res.render("addCategory.pug", {
       title: "Add Category:",
       errors,
-      csrfToken: req.csrfToken()
-    })
+      csrfToken: req.csrfToken(),
+    });
     // res.json({ createCategory });
   })
 );
@@ -162,32 +166,36 @@ router.delete(
 //   })
 // }))
 
-router.post('/api/create', requireAuth, asyncHandler(async (req, res) => {
-
-  console.log(req.body)
-  const category = Category.build({
-    title: req.body.value,
-    userId: res.locals.user.id
-  })
-  console.log(category)
-  if (category) {
-    await category.save();
-    const categories = await Category.findAll({
-      where: {
-        userId: res.locals.user.id
-      }
-    })
-    await res.json({ categories })
-  }
-}))
-router.get('/api/get', requireAuth, asyncHandler(async (req, res) => {
-
-  const categories = await Category.findAll({
-    where: {
-      userId: res.locals.user.id
+router.post(
+  "/api/create",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const category = Category.build({
+      title: req.body.value,
+      userId: res.locals.user.id,
+    });
+    if (category) {
+      await category.save();
+      const categories = await Category.findAll({
+        where: {
+          userId: res.locals.user.id,
+        },
+      });
+      await res.json({ categories });
     }
   })
-  await res.json({ categories })
-}))
+);
+router.get(
+  "/api/get",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const categories = await Category.findAll({
+      where: {
+        userId: res.locals.user.id,
+      },
+    });
+    await res.json({ categories });
+  })
+);
 
 module.exports = router;

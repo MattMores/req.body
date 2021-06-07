@@ -1,25 +1,53 @@
 .body {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .splash_background {
+  background-image: url("https://i.ibb.co/CBzDfbp/62702-req-body-Logo-MJ-01.jpg");
+  width: 640px;
+  height: 300px;
+  position: relative;
+}
 
-    background-image: url('https://i.ibb.co/CBzDfbp/62702-req-body-Logo-MJ-01.jpg');
-    width: 640px;
-    height: 300px;
-    position: relative;
+.buttonDiv {
+  width: 640px;
+  height: 50px;
+  position: absolute;
+  top: 400px;
+  display: flex;
+  justify-content: center;
 }
 
 .quoteDiv {
-    width: 650px;
-    height: 300px;
-    position: absolute;
-    top: 400px;
-    display: flex;
-    justify-content: center;
+  width: 640px;
+  height: 150px;
+  position: absolute;
+  top: 500px;
+  display: flex;
+  justify-content: center;
+  display: hidden;
+  text-align: center;
+}
+
+.sourceDiv {
+  width: 320px;
+  height: 50px;
+  position: absolute;
+  top: 550px;
+  display: flex;
+  justify-content: center;
+  display: hidden;
+  text-align: center;
 }
 
 #quoteButton {
-    height: 50px;
-    width: 90px;
+  height: 50px;
+  width: 90px;
+  border: 1px solid;
+  border-radius: 40px;
 }
+
+#quoteButton:hover {
+    background-color: darkgray;
+  }
+  

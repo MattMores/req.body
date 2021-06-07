@@ -8,7 +8,9 @@ html
         link(rel="stylesheet" href="/stylesheets/index.css")
   body
     header.header
-      img(src="https://i.ibb.co/5LrJRgm/logo-1.png" class='logo')
+      a(href='/')
+        .redirectImgDiv
+          img(src="https://i.ibb.co/5LrJRgm/logo-1.png" class='logo')
       .tabs
       if locals.authenticated
         h6

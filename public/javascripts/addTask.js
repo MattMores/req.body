@@ -13,7 +13,6 @@ window.addEventListener("DOMContentLoaded", e => {
 
     const psuedoCancel = async () => {
         hiddenInputField.value = '';
-        console.log(hiddenInputField.value)
 
         hiddenDiv.style.display = 'none'
         hiddenLabel.style.display = 'none'
@@ -47,7 +46,6 @@ window.addEventListener("DOMContentLoaded", e => {
             const res = await fetch("http://localhost:8080/categories/api/get")
 
             const json = await res.json()
-            console.log(json.categories)
             if (!json.categories.length) {
                 everythingDiv.style.display = ''
                 createCategoryButton.style.display = ''
@@ -71,7 +69,6 @@ window.addEventListener("DOMContentLoaded", e => {
 
 
         // hiddenInputField.value = '';
-        // console.log(hiddenInputField.value)
 
         // hiddenDiv.style.display = 'none'
         // hiddenLabel.style.display = 'none'
@@ -94,7 +91,6 @@ window.addEventListener("DOMContentLoaded", e => {
         createCategoryButton.addEventListener('click', async event => {
             event.preventDefault()
 
-            // console.log(organizeYourLife)
             everythingDiv.style.display = 'none'
             hiddenDiv.style.display = ''
             hiddenLabel.style.display = ''
@@ -155,7 +151,6 @@ window.addEventListener("DOMContentLoaded", e => {
         hiddenCancelCategoryButton.addEventListener('click', async event => {
             event.preventDefault()
             hiddenInputField.value = '';
-            console.log(hiddenInputField.value)
 
             hiddenDiv.style.display = 'none'
             hiddenLabel.style.display = 'none'
@@ -205,7 +200,7 @@ window.addEventListener("DOMContentLoaded", e => {
     hiddenAddCategoryButton.addEventListener('click', async event => {
         event.preventDefault()
 
-        // console.log(hiddenInputField.value)
+
         hiddenDiv.style.display = 'none'
         hiddenLabel.style.display = 'none'
         hiddenInputField.innerHTML = '';
@@ -235,7 +230,6 @@ window.addEventListener("DOMContentLoaded", e => {
         // const value = hiddenInputField.value
         // let idk = hiddenInputField.value
 
-        // console.log('youre here', hiddenInputField.value, idk, idk.trim(), hiddenInputField.value.trim() === empty.trim())
         if (hiddenInputField.value.trim() === empty.trim()) {
             hiddenInputField.value = ''
             psuedoCancel()
@@ -244,15 +238,13 @@ window.addEventListener("DOMContentLoaded", e => {
 
             const value = hiddenInputField.value
 
-            console.log('um')
             const res = await fetch("http://localhost:8080/categories/api/create", {
                 method: "POST",
                 body: JSON.stringify({ value }),
                 headers: { "Content-Type": "application/json" },
             })
             const json = await res.json()
-            // await console.log(json)
-            // await console.log(json.Categorys)
+
             hiddenInputField.value = ''
             if (selectCategorySelector) {
 
