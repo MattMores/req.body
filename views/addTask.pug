@@ -20,8 +20,8 @@ block content
             label(for="title") Title:
                 input(type="text" name="title" placeholder="Task title")
             if categories && categories.length > 0
-                label(for="category" id='selectCategoryLabel') Category:
-                select(name="category" id='selectCategorySelector')
+                label(for="categoryId" id='selectCategoryLabel') Category:
+                select(name="categoryId" id='selectCategorySelector')
                     option No Category
                     each category in categories
                         option(value=category.id)= category.title
