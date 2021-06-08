@@ -116,6 +116,12 @@ router.post(
       due,
       public,
     });
+
+    const categories = await Category.findAll({
+      where: {
+        userId: res.locals.user.id
+      }
+    })
     // console.log(categoryId)
     if (validatorErrors.isEmpty()) {
       await task.save();
